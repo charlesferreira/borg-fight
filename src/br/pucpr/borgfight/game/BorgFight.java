@@ -1,5 +1,6 @@
 package br.pucpr.borgfight.game;
 
+import br.pucpr.borgfight.scene.DemoScene;
 import br.pucpr.borgfight.scene.MainScene;
 import br.pucpr.gema.core.Application;
 import br.pucpr.gema.core.GameScene;
@@ -10,6 +11,6 @@ public class BorgFight extends Application {
     }
 
     public static void main(String[] args) {
-        new Application(MainScene.class);
+        new Application(DemoScene.class);
     }
 }

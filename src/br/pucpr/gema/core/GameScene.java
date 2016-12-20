@@ -1,8 +1,7 @@
 package br.pucpr.gema.core;
 
-import br.pucpr.cg.Camera;
+import br.pucpr.gema.core.objects.Camera;
 import br.pucpr.gema.core.objects.EmptyObject;
-import br.pucpr.gema.graphics.RenderContext;
 import br.pucpr.mage.Keyboard;
 import br.pucpr.mage.Scene;
 import br.pucpr.mage.phong.DirectionalLight;
@@ -12,23 +11,19 @@ import org.joml.Vector3f;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
-abstract public class GameScene implements Scene {
-    private Keyboard keys = Keyboard.getInstance();
-
-    protected final RenderContext renderContext;
+public abstract class GameScene implements Scene {
+    public final Camera camera;
+    public final DirectionalLight light;
     private GameObject sceneGraph = new EmptyObject();
 
     protected GameScene() {
-        Camera camera = new Camera();
-        camera.getPosition().set(0, 0, 8f);
-
-        DirectionalLight light = new DirectionalLight(
-                new Vector3f(0f, 1.0f, -1.0f), // direction
-                new Vector3f(0.8f, 0.8f, 0.8f), // ambient
-                new Vector3f(0.5f, 0.5f, 0.5f), // diffuse
-                new Vector3f(1f, 1f, 1f)); // specular
-
-        renderContext = new RenderContext(camera, light);
+        camera = new Camera();
+        camera.transform.translate(0, 0, -5);
+        light = (new DirectionalLight(
+                new Vector3f(0f, 1.0f, -1.0f),      // direction
+                new Vector3f(0.8f, 0.8f, 0.8f),     // ambient
+                new Vector3f(0.5f, 0.5f, 0.5f),     // diffuse
+                new Vector3f(1f, 1f, 1f)));         // specular
     }
 
     @Override
@@ -43,7 +38,7 @@ abstract public class GameScene implements Scene {
 
     @Override
     public final void update(float secs) {
-        if (keys.isPressed(GLFW_KEY_ESCAPE)) {
+        if (Keyboard.getInstance().isPressed(GLFW_KEY_ESCAPE)) {
             glfwSetWindowShouldClose(glfwGetCurrentContext(), GLFW_TRUE);
             return;
         }
@@ -61,7 +56,7 @@ abstract public class GameScene implements Scene {
     @Override
     public final void draw() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        sceneGraph.draw(renderContext, new Matrix4f());
+        sceneGraph.draw(new Matrix4f());
     }
 
     @Override

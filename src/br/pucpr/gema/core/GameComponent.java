@@ -1,7 +1,7 @@
 package br.pucpr.gema.core;
 
 public class GameComponent {
-    private GameObject gameObject;
+    protected GameObject gameObject;
 
     public GameComponent(GameObject gameObject) {
         this.gameObject = gameObject;

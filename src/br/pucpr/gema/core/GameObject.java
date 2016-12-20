@@ -3,7 +3,6 @@ package br.pucpr.gema.core;
 import br.pucpr.gema.core.components.MeshRenderer;
 import br.pucpr.gema.core.components.Transform;
 import br.pucpr.gema.graphics.IDrawable;
-import br.pucpr.gema.graphics.RenderContext;
 import org.joml.Matrix4f;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,17 +42,17 @@ public class GameObject implements IDrawable {
     }
 
     @Override
-    public final void draw(RenderContext context, Matrix4f world) {
-        world.translate(transform.position);
-        world.scale(transform.scale);
-        world.rotate(transform.rotation);
-        onDraw(context, world);
-        children.forEach(child -> child.draw(context, new Matrix4f(world)));
+    public final void draw(Matrix4f world) {
+        world.translate(transform.getLocalPosition());
+        world.scale(transform.getLocalScale());
+        world.rotate(transform.getLocalRotation());
+        onDraw(world);
+        children.forEach(child -> child.draw(new Matrix4f(world)));
     }
 
-    protected void onDraw(RenderContext context, Matrix4f world) {
+    protected void onDraw(Matrix4f world) {
         if (renderer == null) return;
-        renderer.draw(context, world);
+        renderer.draw(world);
     }
 
     public GameObject addChild(GameObject child) {
@@ -80,5 +79,9 @@ public class GameObject implements IDrawable {
         }
 
         return this;
+    }
+
+    public GameObject getParent() {
+        return parent;
     }
 }

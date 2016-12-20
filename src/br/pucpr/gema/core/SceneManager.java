@@ -12,4 +12,8 @@ public class SceneManager {
 
         return activeScene;
     }
+
+    public static GameScene getActiveScene() {
+        return activeScene;
+    }
 }
