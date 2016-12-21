@@ -47,7 +47,7 @@ public class Camera extends GameObject {
         IntBuffer w = BufferUtils.createIntBuffer(1);
         IntBuffer h = BufferUtils.createIntBuffer(1);
         long window = glfwGetCurrentContext();
-        glfwGetWindowSize(window, w, h);
+         glfwGetWindowSize(window, w, h);
         return w.get() / (float) h.get();
     }
 
@@ -55,10 +55,10 @@ public class Camera extends GameObject {
         return new Matrix4f().lookAt(
                 transform.getPosition(),
                 new Vector3f(),
-                transform.getUp());
+                new Vector3f(0, 1, 0));
     }
 
     public Matrix4f getProjectionMatrix() {
-        return new Matrix4f().perspective(fov, getAspect(), near, far);
+        return new Matrix4f().setPerspective(fov, getAspect(), near, far);
     }
 }

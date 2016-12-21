@@ -43,9 +43,11 @@ public class GameObject implements IDrawable {
 
     @Override
     public final void draw(Matrix4f world) {
-        world.translate(transform.getLocalPosition());
-        world.scale(transform.getLocalScale());
-        world.rotate(transform.getLocalRotation());
+        //world.translate(transform.getLocalPosition());
+        //world.scale(transform.getLocalScale());
+        //world.rotate(transform.getLocalRotation());
+        world.mul(transform.getWorldMatrix().mul(transform.getLocalMatrix()));
+
         onDraw(world);
         children.forEach(child -> child.draw(new Matrix4f(world)));
     }

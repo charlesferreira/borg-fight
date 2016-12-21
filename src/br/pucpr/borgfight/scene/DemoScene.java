@@ -8,9 +8,7 @@ import br.pucpr.gema.core.objects.EmptyObject;
 import br.pucpr.gema.core.objects.Sphere;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
 import br.pucpr.gema.util.Mathf;
-import br.pucpr.mage.Keyboard;
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
 
 public class DemoScene extends GameScene {
     private GameObject cube1;
@@ -49,13 +47,5 @@ public class DemoScene extends GameScene {
         cube2.transform.rotate(0, 0, Time.deltaTime * 2.15f);
         //cube2.transform.setScale(0.75f + Mathf.sin(Time.time) / 8f);
         sphere.transform.rotate(0, 0, 10 * Time.deltaTime);
-
-        Vector3f movement = new Vector3f().zero();
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_W)) movement.add(camera.transform.getForward());
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_S)) movement.add(camera.transform.getBack());
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_A)) movement.add(camera.transform.getRight());
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_D)) movement.add(camera.transform.getLeft());
-
-        cameraMan.transform.translate(movement.mul(Time.deltaTime / 100));
     }
 }

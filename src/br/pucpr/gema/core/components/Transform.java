@@ -46,14 +46,14 @@ public class Transform extends GameComponent {
         return rotation;
     }
 
-    private Matrix4f getWorldMatrix() {
+    public Matrix4f getWorldMatrix() {
         GameObject parent = gameObject.getParent();
         return parent != null
                 ? parent.transform.getWorldMatrix().mul(parent.transform.getLocalMatrix())
                 : new Matrix4f();
     }
 
-    private Matrix4f getLocalMatrix() {
+    public Matrix4f getLocalMatrix() {
         return new Matrix4f().translationRotateScale(
                 localPosition, localRotation, localScale);
     }
@@ -74,9 +74,7 @@ public class Transform extends GameComponent {
         return new Vector3f(0, -1, 0).rotate(getRotation());
     }
 
-    public Vector3f getForward() {
-        return new Vector3f(0, 0, 1).rotate(getRotation());
-    }
+    public Vector3f getForward() {return new Vector3f(0, 0, 1).rotate(getRotation());}
 
     public Vector3f getBack() {
         return new Vector3f(0, 0, -1).rotate(getRotation());
