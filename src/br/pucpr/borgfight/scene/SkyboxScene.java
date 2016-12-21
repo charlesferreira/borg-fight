@@ -9,6 +9,7 @@ import br.pucpr.gema.core.objects.Sphere;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
 import br.pucpr.gema.util.Mathf;
 import br.pucpr.mage.Keyboard;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
@@ -22,9 +23,15 @@ public class SkyboxScene extends GameScene {
     }
 
     @Override
+    protected Vector3f getStartingCameraPos() {
+        return new Vector3f(0, 0, 5);
+    }
+
+    @Override
     protected void onUpdate() {
         Vector3f movement = new Vector3f().zero();
 
+        /*
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_W)) movement.add(cube1.transform.getForward());
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_S)) movement.add(cube1.transform.getBack());
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_A)) movement.add(cube1.transform.getRight());
@@ -39,13 +46,16 @@ public class SkyboxScene extends GameScene {
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_9)) angle--;
         angle *= Time.deltaTime;
 
-        cube1.transform.getLocalRotation().rotateAxis(angle, new Vector3f(0, 1, 0));
+        //cube1.transform.getLocalRotation().rotateAxis(angle, new Vector3f(0, 1, 0));
+        Quaternionf invert = new Quaternionf();
+        cube1.transform.getLocalRotation().invert(invert);
+        cube1.transform.getLocalRotation().rotateAxis(angle, new Vector3f(0, 1, 0).rotate(invert));
 
         angle = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_4)) angle--;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_6)) angle++;
         angle *= Time.deltaTime;
 
-        cube1.transform.getLocalRotation().rotateAxis(angle, new Vector3f(0, 0, 1));
+        cube1.transform.getLocalRotation().rotateAxis(angle, new Vector3f(0, 0, 1));*/
     }
 }

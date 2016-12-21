@@ -48,7 +48,7 @@ public class TestScene implements Scene {
                 new Vector3f( 1.0f,  1.0f,  1.0f));   //specular
         
         //Carga do Skydome
-        skydome = MeshFactory.createInvertedSphere(20, 20);
+        skydome = MeshFactory.createSphereInverse(20, 20);
         
         skyMaterial = new SkyMaterial();
         skyMaterial.setCloud1(new Texture(PATH + "textures/cloud1.png"));

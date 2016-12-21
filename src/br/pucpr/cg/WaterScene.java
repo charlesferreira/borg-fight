@@ -85,7 +85,7 @@ public class WaterScene implements Scene {
                 );
         
         //Carga do Skydome
-        skydome = MeshFactory.createInvertedSphere(20, 20);
+        skydome = MeshFactory.createSphereInverse(20, 20);
         
         skyMaterial = new SkyMaterial();
         skyMaterial.setCloud1(new Texture(PATH + "textures/cloud1.png"));

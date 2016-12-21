@@ -53,7 +53,7 @@ public class Camera extends GameObject {
 
     public Matrix4f getViewMatrix() {
         return new Matrix4f().lookAt(
-                transform.getPosition(),
+                transform.getWorldPosition(),
                 new Vector3f(),
                 new Vector3f(0, 1, 0));
     }

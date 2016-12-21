@@ -83,7 +83,7 @@ public class MultiTexture implements Scene {
         fb = FrameBuffer.forCurrentViewport();
         postFX = PostFXMaterial.defaultPostFX("fxNone", fb);
         
-        skydome = MeshFactory.createInvertedSphere(20, 20);
+        skydome = MeshFactory.createSphereInverse(20, 20);
         skyMaterial = new SkyMaterial()
                 .setCloud1(new Texture(PATH + "textures/cloud1.png"))
                 .setCloud2(new Texture(PATH + "textures/cloud2.png"));

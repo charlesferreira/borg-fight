@@ -11,7 +11,7 @@ public class PhongMaterial extends SimpleMaterial {
     private float specularPower;
     
     public PhongMaterial(Vector3f ambientColor, Vector3f diffuseColor, Vector3f specularColor, float specularPower) {
-        super("/br/pucpr/mage/resource/phong/shaders");
+        super("/br/pucpr/mage/resource/phong/phong");
         this.ambientColor = ambientColor;
         this.diffuseColor = diffuseColor;
         this.specularColor = specularColor;

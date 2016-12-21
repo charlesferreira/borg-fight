@@ -43,11 +43,7 @@ public class GameObject implements IDrawable {
 
     @Override
     public final void draw(Matrix4f world) {
-        //world.translate(transform.getLocalPosition());
-        //world.scale(transform.getLocalScale());
-        //world.rotate(transform.getLocalRotation());
-        world.mul(transform.getWorldMatrix().mul(transform.getLocalMatrix()));
-
+        world.mul(transform.getAffineMatrix());
         onDraw(world);
         children.forEach(child -> child.draw(new Matrix4f(world)));
     }
@@ -77,7 +73,7 @@ public class GameObject implements IDrawable {
     public GameObject removeFromParent() {
         if (parent != null) {
             parent.removeChild(this);
-            moveToParent(null);
+            parent = null;
         }
 
         return this;
@@ -85,5 +81,9 @@ public class GameObject implements IDrawable {
 
     public GameObject getParent() {
         return parent;
+    }
+
+    public List<GameObject> getChildren() {
+        return children;
     }
 }

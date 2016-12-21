@@ -28,7 +28,7 @@ public class MeshRenderer extends GameComponent implements IDrawable {
         shader.bind()
                 .setUniform("uProjection", scene.camera.getProjectionMatrix())
                 .setUniform("uView", scene.camera.getViewMatrix())
-                .setUniform("uCameraPosition", scene.camera.transform.getPosition());
+                .setUniform("uCameraPosition", scene.camera.transform.getWorldPosition());
 
         scene.light.apply(shader);
         shader.unbind();

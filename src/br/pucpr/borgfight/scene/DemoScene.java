@@ -17,13 +17,18 @@ public class DemoScene extends GameScene {
     private GameObject cameraMan;
 
     @Override
+    protected Vector3f getStartingCameraPos() {
+        return new Vector3f(0, 0, 5);
+    }
+
+    @Override
     protected void onSceneLoad() {
         cameraMan = addChild(new EmptyObject());
         cameraMan.addChild(camera);
 
         cube1 = addChild(new Cube());
         cube1.renderer.material = new DefaultMaterial(new Vector3f(1, 0, 0));
-
+/*
         cube2 = cube1.addChild(new Cube());
         cube2.renderer.material = new DefaultMaterial(new Vector3f(1, 1, 0));
         cube2.transform.translate(0, 0, 2);
@@ -47,5 +52,6 @@ public class DemoScene extends GameScene {
         cube2.transform.rotate(0, 0, Time.deltaTime * 2.15f);
         //cube2.transform.setScale(0.75f + Mathf.sin(Time.time) / 8f);
         sphere.transform.rotate(0, 0, 10 * Time.deltaTime);
+    */
     }
 }

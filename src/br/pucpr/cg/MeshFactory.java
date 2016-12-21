@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeshFactory {
-    public static Mesh createInvertedSphere(int slices, int stacks) {
+    public static Mesh createSphereInverse(int slices, int stacks) {
         // Criação dos vértices
         List<Vector3f> vertices = new ArrayList<>();
         List<Vector2f> texCoords = new ArrayList<>();
@@ -266,6 +266,92 @@ public class MeshFactory {
                         //Face esquerda
                         20, 23, 22,
                         20, 21, 23)
+                .create();
+    }
+
+    public static Mesh createCubeInverse() {
+        return new MeshBuilder()
+                .addVector3fAttribute("aPosition",
+                        //Face próxima
+                        -0.5f, 0.5f, 0.5f,  //0
+                        0.5f, 0.5f, 0.5f,  //1
+                        -0.5f, -0.5f, 0.5f,  //2
+                        0.5f, -0.5f, 0.5f,  //3
+                        //Face afastada
+                        -0.5f, 0.5f, -0.5f,  //4
+                        0.5f, 0.5f, -0.5f,  //5
+                        -0.5f, -0.5f, -0.5f,  //6
+                        0.5f, -0.5f, -0.5f,  //7
+                        //Face superior
+                        -0.5f, 0.5f, 0.5f,  //8
+                        0.5f, 0.5f, 0.5f,  //9
+                        -0.5f, 0.5f, -0.5f,  //10
+                        0.5f, 0.5f, -0.5f,  //11
+                        //Face inferior
+                        -0.5f, -0.5f, 0.5f,  //12
+                        0.5f, -0.5f, 0.5f,  //13
+                        -0.5f, -0.5f, -0.5f,  //14
+                        0.5f, -0.5f, -0.5f,  //15
+                        //Face direita
+                        0.5f, -0.5f, 0.5f,  //16
+                        0.5f, 0.5f, 0.5f,  //17
+                        0.5f, -0.5f, -0.5f,  //18
+                        0.5f, 0.5f, -0.5f,  //19
+                        //Face esquerda
+                        -0.5f, -0.5f, 0.5f,   //20
+                        -0.5f, 0.5f, 0.5f,   //21
+                        -0.5f, -0.5f, -0.5f,  //22
+                        -0.5f, 0.5f, -0.5f)  //23
+                .addVector3fAttribute("aNormal",
+                        //Face próxima
+                        0.0f, 0.0f, 1.0f,
+                        0.0f, 0.0f, 1.0f,
+                        0.0f, 0.0f, 1.0f,
+                        0.0f, 0.0f, 1.0f,
+                        //Face afastada
+                        0.0f, 0.0f, -1.0f,
+                        0.0f, 0.0f, -1.0f,
+                        0.0f, 0.0f, -1.0f,
+                        0.0f, 0.0f, -1.0f,
+                        //Face superior
+                        0.0f, 1.0f, 0.0f,
+                        0.0f, 1.0f, 0.0f,
+                        0.0f, 1.0f, 0.0f,
+                        0.0f, 1.0f, 0.0f,
+                        //Face inferior
+                        0.0f, -1.0f, 0.0f,
+                        0.0f, -1.0f, 0.0f,
+                        0.0f, -1.0f, 0.0f,
+                        0.0f, -1.0f, 0.0f,
+                        //Face direita
+                        1.0f, 0.0f, 0.0f,
+                        1.0f, 0.0f, 0.0f,
+                        1.0f, 0.0f, 0.0f,
+                        1.0f, 0.0f, 0.0f,
+                        //Face esquerda
+                        -1.0f, 0.0f, 0.0f,
+                        -1.0f, 0.0f, 0.0f,
+                        -1.0f, 0.0f, 0.0f,
+                        -1.0f, 0.0f, 0.0f)
+                .setIndexBuffer(
+                        //Face próxima
+                        0, 3, 2,
+                        0, 1, 3,
+                        //Face afastada
+                        4, 6, 7,
+                        4, 7, 5,
+                        //Face superior
+                        8, 10, 11,
+                        8, 11, 9,
+                        //Face inferior
+                        12, 15, 14,
+                        12, 13, 15,
+                        //Face direita
+                        16, 19, 18,
+                        16, 17, 19,
+                        //Face esquerda
+                        20, 22, 23,
+                        20, 23, 21)
                 .create();
     }
 

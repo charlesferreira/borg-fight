@@ -18,13 +18,15 @@ public abstract class GameScene implements Scene {
 
     protected GameScene() {
         camera = new Camera();
-        camera.transform.translate(0, 0, -5);
+        camera.transform.setPosition(getStartingCameraPos(), Space.WORLD);
         light = (new DirectionalLight(
                 new Vector3f(1.0f, 1.0f, -1.0f),    // direction
                 new Vector3f(0.8f, 0.8f, 0.8f),     // ambient
                 new Vector3f(0.5f, 0.5f, 0.5f),     // diffuse
                 new Vector3f(1f, 1f, 1f)));         // specular
     }
+
+    protected abstract Vector3f getStartingCameraPos();
 
     @Override
     public void init() {

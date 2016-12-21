@@ -1,6 +1,6 @@
 package br.pucpr.gema.core;
 
-public class GameComponent {
+abstract public class GameComponent {
     protected GameObject gameObject;
 
     public GameComponent(GameObject gameObject) {
