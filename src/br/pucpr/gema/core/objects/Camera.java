@@ -60,9 +60,9 @@ public class Camera extends GameObject {
         Vector3f direction = new Vector3f(target).sub(eye);
 
         // correção do vetor "para cima"
-        Vector3f up = world.transformDirection(new Vector3f(0, -1, 0));
+        Vector3f up = world.transformDirection(new Vector3f(0, 1, 0));
         Vector3f side = new Vector3f();
-        up.cross(direction, side);
+        direction.cross(up, side);
         side.cross(direction, up);
         up.normalize();
 
