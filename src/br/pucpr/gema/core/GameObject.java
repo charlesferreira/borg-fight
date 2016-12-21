@@ -43,7 +43,7 @@ public class GameObject implements IDrawable {
 
     @Override
     public final void draw(Matrix4f world) {
-        world.mul(transform.getAffineMatrix());
+        world.mul(transform.getLocalMatrix());
         onDraw(world);
         children.forEach(child -> child.draw(new Matrix4f(world)));
     }

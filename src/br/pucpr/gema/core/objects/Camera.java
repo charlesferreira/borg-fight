@@ -52,10 +52,21 @@ public class Camera extends GameObject {
     }
 
     public Matrix4f getViewMatrix() {
-        return new Matrix4f().lookAt(
-                transform.getWorldPosition(),
-                new Vector3f(),
-                new Vector3f(0, 1, 0));
+        Matrix4f world = transform.getWorld();
+
+        // posição e direção da câmera no mundo
+        Vector3f eye = world.transformPosition(new Vector3f());
+        Vector3f target = world.transformDirection(new Vector3f(0, 0, -1)).add(eye);
+        Vector3f direction = new Vector3f(target).sub(eye);
+
+        // correção do vetor "para cima"
+        Vector3f up = world.transformDirection(new Vector3f(0, -1, 0));
+        Vector3f side = new Vector3f();
+        up.cross(direction, side);
+        side.cross(direction, up);
+        up.normalize();
+
+        return new Matrix4f().lookAt(eye, target, up);
     }
 
     public Matrix4f getProjectionMatrix() {

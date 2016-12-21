@@ -11,30 +11,38 @@ import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 public class TransformScene extends GameScene {
-    private GameObject cube1;
-    private GameObject cube2;
-    private float scale1 = 1;
-    private float scale2 = 1;
+    private GameObject sphere;
+    private GameObject center;
+    private float sphereScale = 1;
+    private float centerScale = 1;
+    private Space space;
 
     @Override
     protected Vector3f getStartingCameraPos() {
-        return new Vector3f(0, 5, 5);
+        return new Vector3f(0, 2, 5);
     }
 
     @Override
     protected void onSceneLoad() {
-        cube1 = addChild(new Cube());
-        cube1.renderer.material = new DefaultMaterial(new Vector3f(1, 0, 0));
+        center = addChild(new Cube());
+        center.renderer.material = new DefaultMaterial(new Vector3f(1, 1, 1));
 
-        cube2 = addChild(new Cube());
-        cube2.renderer.material = new DefaultMaterial(new Vector3f(0, 1, 0));
-        cube2.addChild(cube1);
-        cube2.transform.translate(new Vector3f(0, 0, 2));
-//        camera.moveToParent(cube2);
+        sphere = center.addChild(new Cube());
+        sphere.renderer.material = new DefaultMaterial(new Vector3f(0.6f, 0.6f, 0.6f));
+        sphere.transform.translate(new Vector3f(0, 0, 2));
+
+        camera.moveToParent(sphere);
+
+        //GameObject front = addChild(new Cube());
+        //front.renderer.material = new DefaultMaterial(new Vector3f(0, 1, 0));
     }
 
     @Override
     protected void onUpdate() {
+        space = Keyboard.getInstance().isDown(GLFW.GLFW_KEY_LEFT_CONTROL) || Keyboard.getInstance().isDown(GLFW.GLFW_KEY_RIGHT_CONTROL)
+                ? Space.WORLD
+                : Space.SELF;
+
         Vector3f movement = new Vector3f();
 
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_W)) movement.add(0, 0, -1);
@@ -44,45 +52,42 @@ public class TransformScene extends GameScene {
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_8)) movement.add(0, 1, 0);
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_5)) movement.add(0, -1, 0);
 
-        //cube1.transform.position.add(movement.mul(2 * Time.deltaTime));
-        cube1.transform.translate(movement.mul(Time.deltaTime), Space.WORLD);
-//        cube1.transform.setPosition(movement.mul(2f), Space.WORLD);
-//        cube1.transform.setPosition(movement.mul(2f), Space.SELF);
+        sphere.transform.translate(movement.mul(Time.deltaTime), space);
 
         float angle = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_7)) angle++;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_9)) angle--;
         angle *= Time.deltaTime;
 
-        cube1.transform.rotate(angle, new Vector3f(0, 1, 0), Space.WORLD);
+        sphere.transform.rotate(angle, new Vector3f(0, 1, 0), space);
 
         angle = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_4)) angle--;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_6)) angle++;
         angle *= Time.deltaTime;
 
-        cube1.transform.rotate(angle, new Vector3f(0, 0, 1));
+        sphere.transform.rotate(angle, new Vector3f(0, 0, 1), space);
 
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_ADD)) scale1 += Time.deltaTime;
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_SUBTRACT)) scale1 -= Time.deltaTime;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_ADD)) sphereScale += Time.deltaTime;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_KP_SUBTRACT)) sphereScale -= Time.deltaTime;
 
-        cube1.transform.setScale(scale1);
+        sphere.transform.setScale(sphereScale);
 
         // cubo 2
 
         angle = 0f;
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_LEFT)) angle--;
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_RIGHT)) angle++;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_LEFT)) angle++;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_RIGHT)) angle--;
         angle *= Time.deltaTime;
 
-        cube2.transform.rotate(angle, new Vector3f(0, 1, 0));
+        center.transform.rotate(angle, new Vector3f(0, 1, 0), space);
 
         angle = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_UP)) angle--;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_DOWN)) angle++;
         angle *= Time.deltaTime;
 
-        cube2.transform.rotate(angle, new Vector3f(1, 0, 0));
+        center.transform.rotate(angle, new Vector3f(1, 0, 0), space);
 
         movement = new Vector3f();
 
@@ -91,11 +96,27 @@ public class TransformScene extends GameScene {
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_DELETE)) movement.add(-1, 0, 0);
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_PAGE_DOWN)) movement.add(1, 0, 0);
 
-        cube2.transform.translate(movement.mul(Time.deltaTime));
+        center.transform.translate(movement.mul(Time.deltaTime), space);
 
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_EQUAL)) scale2 += Time.deltaTime;
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_MINUS)) scale2 -= Time.deltaTime;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_EQUAL)) centerScale += Time.deltaTime;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_MINUS)) centerScale -= Time.deltaTime;
 
-        cube2.transform.setScale(scale2);
+        center.transform.setScale(centerScale);
+
+        // camera
+
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_I)) movement.add(0, 0, -1);
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_K)) movement.add(0, 0, 1);
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_J)) movement.add(-1, 0, 0);
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_L)) movement.add(1, 0, 0);
+
+        camera.transform.translate(movement.mul(Time.deltaTime), space);
+
+        angle = 0f;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_U)) angle++;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_O)) angle--;
+        angle *= Time.deltaTime;
+
+        camera.transform.rotate(angle, new Vector3f(0, 1, 0), space);
     }
 }

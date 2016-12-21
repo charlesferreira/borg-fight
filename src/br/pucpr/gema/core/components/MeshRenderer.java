@@ -4,6 +4,7 @@ import br.pucpr.gema.core.GameComponent;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
 import br.pucpr.gema.core.SceneManager;
+import br.pucpr.gema.core.objects.Camera;
 import br.pucpr.gema.graphics.IDrawable;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
 import br.pucpr.mage.Material;
@@ -24,11 +25,12 @@ public class MeshRenderer extends GameComponent implements IDrawable {
     public void draw(Matrix4f world) {
         if (mesh == null) return;
         GameScene scene = SceneManager.getActiveScene();
+        Camera camera = scene.camera;
         Shader shader = material.getShader();
         shader.bind()
-                .setUniform("uProjection", scene.camera.getProjectionMatrix())
-                .setUniform("uView", scene.camera.getViewMatrix())
-                .setUniform("uCameraPosition", scene.camera.transform.getWorldPosition());
+                .setUniform("uProjection", camera.getProjectionMatrix())
+                .setUniform("uView", camera.getViewMatrix())
+                .setUniform("uCameraPosition", camera.transform.getWorldPosition());
 
         scene.light.apply(shader);
         shader.unbind();

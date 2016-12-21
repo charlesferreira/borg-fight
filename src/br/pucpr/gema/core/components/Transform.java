@@ -20,18 +20,18 @@ public class Transform extends GameComponent {
         scale = new Vector3f(1f, 1f, 1f);
     }
 
-    public Matrix4f getAffineMatrix() {
+    public Matrix4f getLocalMatrix() {
         return new Matrix4f().translationRotateScale(position, rotation, scale);
     }
 
     public Matrix4f getWorld() {
-        return gameObject.getParent() != null
-                ? gameObject.getParent().transform.getAffineMatrix()
-                : new Matrix4f();
+        return getParentWorld().mul(getLocalMatrix());
     }
 
-    public Matrix4f getWorldInverse() {
-        return getWorld().invert();
+    private Matrix4f getParentWorld() {
+        return gameObject.getParent() != null
+                ? gameObject.getParent().transform.getWorld()
+                : new Matrix4f();
     }
 
     public Vector3f getLocalPosition() {
@@ -39,20 +39,18 @@ public class Transform extends GameComponent {
     }
 
     public Vector3f getWorldPosition() {
-        return getWorld().transformPosition(getLocalPosition());
+        Vector3f position = new Vector3f();
+        return getWorld().getTranslation(position);
     }
 
     public Quaternionf getLocalRotation() {
         return new Quaternionf(rotation);
     }
 
-    // todo: testar esse método, fiz com sono
     public Quaternionf getWorldRotation() {
         Quaternionf rotation = getLocalRotation();
         AxisAngle4f axisAngle = new AxisAngle4f();
-        getWorld().rotate(rotation).getRotation(axisAngle);
-        axisAngle.get(rotation);
-        return rotation;
+        return getWorld().getRotation(axisAngle).get(rotation);
     }
 
     public Vector3f getLocalScale() {
@@ -62,7 +60,7 @@ public class Transform extends GameComponent {
     // todo: testar esse método, fiz com sono
     public Vector3f getWorldScale() {
         Vector3f scale = new Vector3f();
-        return getWorld().getScale(scale).fma(1, this.scale);
+        return getWorld().getScale(scale);
     }
 
     public Transform translate(Vector3f translation) {
@@ -71,9 +69,9 @@ public class Transform extends GameComponent {
 
     public Transform translate(Vector3f translation, Space relativeTo) {
         if (relativeTo == Space.SELF)
-            getAffineMatrix().transformDirection(translation);
+            getLocalMatrix().transformDirection(translation);
         else
-            getWorldInverse().transformDirection(translation);
+            getParentWorld().invert().transformDirection(translation);
         position.add(translation);
         return this;
     }
@@ -83,8 +81,8 @@ public class Transform extends GameComponent {
     }
 
     public Transform setPosition(Vector3f position, Space relativeTo) {
-        if (relativeTo == Space.WORLD && gameObject.getParent() != null)
-            getWorld().transformDirection(position);
+        if (relativeTo == Space.WORLD)
+            getParentWorld().transformDirection(position);
         this.position.set(position);
         return this;
     }
@@ -95,7 +93,7 @@ public class Transform extends GameComponent {
 
     public Transform rotate(float radians, Vector3f axis, Space relativeTo) {
         if (relativeTo == Space.WORLD)
-            getWorldInverse().transformDirection(axis);
+            getParentWorld().invert().transformDirection(axis);
         this.rotation.rotateAxis(radians, axis);
         return this;
     }
@@ -109,8 +107,8 @@ public class Transform extends GameComponent {
     }
 
     public Transform setRotation(Quaternionf rotation, Space relativeTo) {
-        if (relativeTo == Space.WORLD && gameObject.getParent() != null)
-            getWorld().rotate(rotation);
+        if (relativeTo == Space.WORLD)
+            getParentWorld().rotate(rotation);
         this.rotation.set(rotation);
         return this;
     }
