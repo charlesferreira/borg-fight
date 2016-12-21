@@ -1,5 +1,6 @@
 package br.pucpr.gema.core;
 
+import br.pucpr.borgfight.scripts.ShipMovement;
 import br.pucpr.gema.core.components.MeshRenderer;
 import br.pucpr.gema.core.components.Transform;
 import br.pucpr.gema.graphics.IDrawable;
@@ -9,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameObject implements IDrawable {
+abstract public class GameObject implements IDrawable {
     public final MeshRenderer renderer;
     public final Transform transform;
     private List<GameComponent> components = new ArrayList<>();
@@ -17,7 +18,7 @@ public class GameObject implements IDrawable {
     private GameObject parent;
 
     // todo: remover o parâmetro boolean (renderer estava tentando criar material antes do init() da cena)
-    protected GameObject(boolean withRenderer) {
+    public GameObject(boolean withRenderer) {
         renderer = withRenderer
                 ? (MeshRenderer) AddComponent(MeshRenderer.class)
                 : null;
@@ -33,6 +34,14 @@ public class GameObject implements IDrawable {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public GameComponent GetComponent(Class<? extends GameComponent> componentClass) {
+        for (GameComponent c : components) {
+            if (componentClass.isAssignableFrom(c.getClass()))
+                return c;
+        }
         return null;
     }
 

@@ -47,7 +47,7 @@ public class Camera extends GameObject {
         IntBuffer w = BufferUtils.createIntBuffer(1);
         IntBuffer h = BufferUtils.createIntBuffer(1);
         long window = glfwGetCurrentContext();
-         glfwGetWindowSize(window, w, h);
+        glfwGetWindowSize(window, w, h);
         return w.get() / (float) h.get();
     }
 

@@ -32,9 +32,6 @@ public class TransformScene extends GameScene {
         sphere.transform.translate(new Vector3f(0, 0, 2));
 
         camera.moveToParent(sphere);
-
-        //GameObject front = addChild(new Cube());
-        //front.renderer.material = new DefaultMaterial(new Vector3f(0, 1, 0));
     }
 
     @Override
