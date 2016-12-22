@@ -4,8 +4,8 @@ import br.pucpr.cg.MeshFactory;
 import br.pucpr.gema.core.GameObject;
 
 public class Cube extends GameObject {
-    public Cube() {
-        super(true);
+    @Override
+    protected void init() {
         renderer.mesh = MeshFactory.createCube();
     }
 }

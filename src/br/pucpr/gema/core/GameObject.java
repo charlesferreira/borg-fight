@@ -1,6 +1,5 @@
 package br.pucpr.gema.core;
 
-import br.pucpr.borgfight.scripts.ShipMovement;
 import br.pucpr.gema.core.components.MeshRenderer;
 import br.pucpr.gema.core.components.Transform;
 import br.pucpr.gema.graphics.IDrawable;
@@ -10,62 +9,36 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class GameObject implements IDrawable {
-    public final MeshRenderer renderer;
-    public final Transform transform;
+public class GameObject implements IDrawable {
+    public MeshRenderer renderer;
+    public Transform transform;
     private List<GameComponent> components = new ArrayList<>();
     private List<GameObject> children = new ArrayList<>();
     private GameObject parent;
 
-    // todo: remover o parâmetro boolean (renderer estava tentando criar material antes do init() da cena)
-    public GameObject(boolean withRenderer) {
-        renderer = withRenderer
-                ? (MeshRenderer) AddComponent(MeshRenderer.class)
-                : null;
+    protected GameObject() {
+    }
+
+    private void preInit() {
+        renderer = (MeshRenderer) AddComponent(MeshRenderer.class);
         transform = (Transform) AddComponent(Transform.class);
     }
 
-    public GameComponent AddComponent(Class<? extends GameComponent> componentClass) {
-        try {
-            GameComponent component = componentClass.getDeclaredConstructor(GameObject.class).newInstance(this);
-            components.add(component);
-            return component;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    protected void init() {
     }
 
-    public GameComponent GetComponent(Class<? extends GameComponent> componentClass) {
-        for (GameComponent c : components) {
-            if (componentClass.isAssignableFrom(c.getClass()))
-                return c;
-        }
-        return null;
-    }
-
-    void update() {
+    public final void update() {
         components.forEach(GameComponent::update);
         children.forEach(GameObject::update);
+        components.forEach(GameComponent::lateUpdate);
     }
 
     @Override
     public final void draw(Matrix4f world) {
         world.mul(transform.getLocalMatrix());
-        onDraw(world);
+        if (renderer != null)
+            renderer.draw(world);
         children.forEach(child -> child.draw(new Matrix4f(world)));
-    }
-
-    protected void onDraw(Matrix4f world) {
-        if (renderer == null) return;
-        renderer.draw(world);
-    }
-
-    public GameObject addChild(GameObject child) {
-        children.add(child);
-        child.moveToParent(this);
-        return child;
     }
 
     private GameObject removeChild(GameObject child) {
@@ -73,8 +46,9 @@ abstract public class GameObject implements IDrawable {
         return this;
     }
 
-    public GameObject moveToParent(GameObject parent) {
+    public GameObject setParent(GameObject parent) {
         removeFromParent();
+        parent.children.add(this);
         this.parent = parent;
         return this;
     }
@@ -92,7 +66,51 @@ abstract public class GameObject implements IDrawable {
         return parent;
     }
 
-    public List<GameObject> getChildren() {
-        return children;
+    public GameComponent AddComponent(Class<? extends GameComponent> componentClass) {
+        try {
+            GameComponent component = componentClass.getDeclaredConstructor(GameObject.class).newInstance(this);
+            component.awake();
+            components.add(component);
+            return component;
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public GameComponent GetComponent(Class<? extends GameComponent> componentClass) {
+        for (GameComponent c : components) {
+            if (componentClass.isAssignableFrom(c.getClass()))
+                return c;
+        }
+        return null;
+    }
+
+    public static GameObject instantiate() {
+        return prepareInstance(new GameObject());
+    }
+
+    public static GameObject instantiate(Class<? extends GameObject> prefabClass) {
+        try {
+            return prepareInstance(prefabClass.newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static GameObject instantiate(Class<? extends GameObject> prefabClass, GameObject parent) {
+        GameObject instance = instantiate(prefabClass);
+        if (instance != null)
+            instance.setParent(parent);
+        return instance;
+    }
+
+    private static GameObject prepareInstance(GameObject instance) {
+        instance.preInit();
+        instance.init();
+        SceneManager.getActiveScene().addChild(instance);
+        return instance;
     }
 }

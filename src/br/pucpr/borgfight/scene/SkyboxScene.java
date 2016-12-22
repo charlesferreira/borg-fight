@@ -2,23 +2,16 @@ package br.pucpr.borgfight.scene;
 
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
-import br.pucpr.gema.core.Time;
 import br.pucpr.gema.core.objects.Cube;
-import br.pucpr.gema.core.objects.EmptyObject;
-import br.pucpr.gema.core.objects.Sphere;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
-import br.pucpr.gema.util.Mathf;
-import br.pucpr.mage.Keyboard;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
 
 public class SkyboxScene extends GameScene {
     private GameObject cube1;
 
     @Override
     protected void onSceneLoad() {
-        cube1 = addChild(new Cube());
+        cube1 = GameObject.instantiate(Cube.class);
         cube1.renderer.material = new DefaultMaterial(new Vector3f(1, 0, 0));
     }
 

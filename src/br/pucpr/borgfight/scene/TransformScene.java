@@ -24,14 +24,14 @@ public class TransformScene extends GameScene {
 
     @Override
     protected void onSceneLoad() {
-        center = addChild(new Cube());
+        center = GameObject.instantiate(Cube.class);
         center.renderer.material = new DefaultMaterial(new Vector3f(1, 1, 1));
 
-        sphere = center.addChild(new Cube());
+        sphere = GameObject.instantiate(Cube.class, center);
         sphere.renderer.material = new DefaultMaterial(new Vector3f(0.6f, 0.6f, 0.6f));
         sphere.transform.translate(new Vector3f(0, 0, 2));
 
-        camera.moveToParent(sphere);
+        camera.setParent(sphere);
     }
 
     @Override

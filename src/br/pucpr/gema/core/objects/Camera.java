@@ -1,5 +1,6 @@
 package br.pucpr.gema.core.objects;
 
+import br.pucpr.gema.core.GameComponent;
 import br.pucpr.gema.core.GameObject;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -10,13 +11,17 @@ import java.nio.IntBuffer;
 import static org.lwjgl.glfw.GLFW.glfwGetCurrentContext;
 import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
 
-public class Camera extends GameObject {
+public class Camera extends GameComponent {
     private float fov = (float) Math.toRadians(60);
     private float near = 0.1f;
     private float far = 1000.0f;
+    private Vector3f position = new Vector3f();
+    private float aspect;
+    private Matrix4f view = new Matrix4f();
+    private Matrix4f projection = new Matrix4f();
 
-    public Camera() {
-        super(false);
+    public Camera(GameObject gameObject) {
+        super(gameObject);
     }
 
     public float getFov() {
@@ -43,16 +48,28 @@ public class Camera extends GameObject {
         this.far = far;
     }
 
-    private float getAspect() {
+    @Override
+    public void lateUpdate() {
+        updatePosition();
+        updateAspect();
+        updateViewMatrix();
+        updateProjectionMatrix();
+    }
+
+    private void updatePosition() {
+        position = gameObject.transform.getWorldPosition();
+    }
+
+    private void updateAspect() {
         IntBuffer w = BufferUtils.createIntBuffer(1);
         IntBuffer h = BufferUtils.createIntBuffer(1);
         long window = glfwGetCurrentContext();
         glfwGetWindowSize(window, w, h);
-        return w.get() / (float) h.get();
+        aspect = w.get() / (float) h.get();
     }
 
-    public Matrix4f getViewMatrix() {
-        Matrix4f world = transform.getWorld();
+    private void updateViewMatrix() {
+        Matrix4f world = gameObject.transform.getWorld();
 
         // posição e direção da câmera no mundo
         Vector3f eye = world.transformPosition(new Vector3f());
@@ -66,10 +83,26 @@ public class Camera extends GameObject {
         side.cross(direction, up);
         up.normalize();
 
-        return new Matrix4f().lookAt(eye, target, up);
+        view = new Matrix4f().lookAt(eye, target, up);
     }
 
-    public Matrix4f getProjectionMatrix() {
-        return new Matrix4f().setPerspective(fov, getAspect(), near, far);
+    public void updateProjectionMatrix() {
+        projection = new Matrix4f().setPerspective(fov, getAspect(), near, far);
+    }
+
+    public Vector3f getPosition() {
+        return position;
+    }
+
+    public float getAspect() {
+        return aspect;
+    }
+
+    public Matrix4f getView() {
+        return view;
+    }
+
+    public Matrix4f getProjection() {
+        return projection;
     }
 }

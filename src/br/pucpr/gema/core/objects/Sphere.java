@@ -4,8 +4,8 @@ import br.pucpr.cg.MeshFactory;
 import br.pucpr.gema.core.GameObject;
 
 public class Sphere extends GameObject {
-    public Sphere() {
-        super(true);
+    @Override
+    protected void init() {
         renderer.mesh = MeshFactory.createSphere(20, 20);
     }
 }
