@@ -1,5 +1,6 @@
 package br.pucpr.gema.graphics.materials;
 
+import br.pucpr.gema.core.SceneManager;
 import br.pucpr.mage.phong.SimpleMaterial;
 import org.joml.Vector3f;
 
@@ -45,5 +46,11 @@ public class DefaultMaterial extends SimpleMaterial {
         getShader().setUniform("uSpecularPower", specularPower);
         getShader().setUniform("isSolidColor", isSolidColor);
         super.apply();
+    }
+
+    public void setColor(Vector3f color) {
+        ambientColor = color;
+        diffuseColor = color;
+        apply();
     }
 }

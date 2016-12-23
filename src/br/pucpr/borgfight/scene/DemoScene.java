@@ -11,19 +11,14 @@ import org.joml.Vector3f;
 public class DemoScene extends GameScene {
     @Override
     protected Vector3f getStartingCameraPos() {
-        return new Vector3f(0, 2, 5);
+        return new Vector3f();
     }
 
     @Override
     protected void onSceneLoad() {
         // player
         GameObject player = GameObject.instantiate(Ship.class);
-        player.transform.translate(new Vector3f(0, 0, 10));
         camera.setParent(player);
-
-        // centro
-        GameObject center = GameObject.instantiate(Cube.class);
-        center.renderer.material = new DefaultMaterial(new Vector3f(1, 1, 1));
 
         // fake skybox
         GameObject.instantiate(Skybox.class);
