@@ -15,7 +15,7 @@ public class ShipInput extends GameComponent {
 
     @Override
     public void start() {
-        playerMovement = (ShipMovement) gameObject.GetComponent(ShipMovement.class);
+        playerMovement = (ShipMovement) gameObject.getComponent(ShipMovement.class);
     }
 
     @Override

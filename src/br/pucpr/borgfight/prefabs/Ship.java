@@ -7,7 +7,7 @@ import br.pucpr.gema.core.GameObject;
 public class Ship extends GameObject {
     @Override
     protected void init() {
-        AddComponent(ShipInput.class);
-        AddComponent(ShipMovement.class);
+        addComponent(ShipInput.class);
+        addComponent(ShipMovement.class);
     }
 }

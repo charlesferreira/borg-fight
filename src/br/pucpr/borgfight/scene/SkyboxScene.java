@@ -3,7 +3,10 @@ package br.pucpr.borgfight.scene;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
 import br.pucpr.gema.core.objects.Cube;
+import br.pucpr.gema.core.objects.Skybox;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
+import br.pucpr.gema.util.scripts.DemoController;
+import br.pucpr.mage.Texture;
 import org.joml.Vector3f;
 
 public class SkyboxScene extends GameScene {
@@ -15,7 +18,12 @@ public class SkyboxScene extends GameScene {
 
     @Override
     protected void onSceneLoad() {
-        GameObject cube = GameObject.instantiate(Cube.class);
-        cube.renderer.material.setColor(new Vector3f(1, 0, 0));
+        GameObject cube = GameObject.instantiate(Skybox.class);
+        cube.addComponent(DemoController.class);
+
+        DefaultMaterial material = new DefaultMaterial()
+                .setTexture(new Texture("C:/temp/img/opengl/textures/bricks_t.jpg"));
+        cube.renderer.material = material;
+
     }
 }

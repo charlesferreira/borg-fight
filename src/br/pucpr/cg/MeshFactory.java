@@ -216,6 +216,37 @@ public class MeshFactory {
                         -0.5f, 0.5f, 0.5f,   //21
                         -0.5f, -0.5f, -0.5f,  //22
                         -0.5f, 0.5f, -0.5f)  //23
+                .addVector2fAttribute("aTexCoord",
+                        //Face próxima
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face afastada
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face superior
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face inferior
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face direita
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face esquerda
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f)
                 .addVector3fAttribute("aNormal",
                         //Face próxima
                         0.0f, 0.0f, 1.0f,
@@ -302,6 +333,37 @@ public class MeshFactory {
                         -0.5f, 0.5f, 0.5f,   //21
                         -0.5f, -0.5f, -0.5f,  //22
                         -0.5f, 0.5f, -0.5f)  //23
+                .addVector2fAttribute("aTexCoord",
+                        //Face próxima
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face afastada
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face superior
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face inferior
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face direita
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f,
+                        //Face esquerda
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        0.0f, 0.0f,
+                        1.0f, 0.0f)
                 .addVector3fAttribute("aNormal",
                         //Face próxima
                         0.0f, 0.0f, 1.0f,
@@ -416,7 +478,7 @@ public class MeshFactory {
         }
 
         //Criacao da lista das normais
-        List<Vector3f> normals = new ArrayList<Vector3f>();
+        List<Vector3f> normals = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
             normals.add(new Vector3f());
         }

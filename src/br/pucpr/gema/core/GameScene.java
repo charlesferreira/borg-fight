@@ -39,7 +39,7 @@ public abstract class GameScene implements Scene {
     private void createCamera() {
         // criação da câmera
         camera = GameObject.instantiate();
-        camera.AddComponent(Camera.class);
+        camera.addComponent(Camera.class);
         camera.transform.setPosition(getStartingCameraPos(), Space.WORLD);
     }
 

@@ -20,8 +20,8 @@ public class GameObject implements IDrawable {
     }
 
     private void preInit() {
-        renderer = (MeshRenderer) AddComponent(MeshRenderer.class);
-        transform = (Transform) AddComponent(Transform.class);
+        renderer = (MeshRenderer) addComponent(MeshRenderer.class);
+        transform = (Transform) addComponent(Transform.class);
     }
 
     protected void init() {
@@ -66,7 +66,7 @@ public class GameObject implements IDrawable {
         return parent;
     }
 
-    public GameComponent AddComponent(Class<? extends GameComponent> componentClass) {
+    public GameComponent addComponent(Class<? extends GameComponent> componentClass) {
         try {
             GameComponent component = componentClass.getDeclaredConstructor(GameObject.class).newInstance(this);
             component.awake();
@@ -78,7 +78,7 @@ public class GameObject implements IDrawable {
         return null;
     }
 
-    public GameComponent GetComponent(Class<? extends GameComponent> componentClass) {
+    public GameComponent getComponent(Class<? extends GameComponent> componentClass) {
         for (GameComponent c : components) {
             if (componentClass.isAssignableFrom(c.getClass()))
                 return c;

@@ -93,7 +93,7 @@ public class Transform extends GameComponent {
 
     public Transform rotate(float radians, Vector3f axis, Space relativeTo) {
         if (relativeTo == Space.WORLD)
-            getParentWorld().invert().transformDirection(axis);
+            getParentWorld().invert().transformDirection(axis); // todo: acho que tá errado isso aqui
         this.rotation.rotateAxis(radians, axis);
         return this;
     }
