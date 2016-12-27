@@ -3,6 +3,8 @@ package br.pucpr.gema.core;
 import br.pucpr.gema.core.components.MeshRenderer;
 import br.pucpr.gema.core.components.Transform;
 import br.pucpr.gema.graphics.IDrawable;
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import org.joml.Matrix4f;
 
 import java.lang.reflect.InvocationTargetException;

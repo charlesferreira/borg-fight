@@ -71,7 +71,7 @@ public class Transform extends GameComponent {
         if (relativeTo == Space.SELF)
             getLocalMatrix().transformDirection(translation);
         else
-            getParentWorld().invert().transformDirection(translation);
+            getWorld().invert().transformDirection(translation); // todo: testar com relativeTo == Space.WORLD
         position.add(translation);
         return this;
     }
@@ -82,7 +82,7 @@ public class Transform extends GameComponent {
 
     public Transform setPosition(Vector3f position, Space relativeTo) {
         if (relativeTo == Space.WORLD)
-            getParentWorld().transformDirection(position);
+            getWorld().invert().transformDirection(position); // todo: testar com relativeTo == Space.WORLD
         this.position.set(position);
         return this;
     }
@@ -93,7 +93,7 @@ public class Transform extends GameComponent {
 
     public Transform rotate(float radians, Vector3f axis, Space relativeTo) {
         if (relativeTo == Space.WORLD)
-            getParentWorld().invert().transformDirection(axis); // todo: acho que tá errado isso aqui
+            getWorld().invert().transformDirection(axis);
         this.rotation.rotateAxis(radians, axis);
         return this;
     }

@@ -9,6 +9,10 @@ import org.lwjgl.glfw.GLFW;
 
 public class DemoController extends GameComponent {
     static Keyboard key = Keyboard.getInstance();
+    float xRotation = 0f;
+    float yRotation = 0f;
+    private float rotationSpeed = 3f;
+    private float angularDrag = 0.05f;
 
     public DemoController(GameObject gameObject) {
         super(gameObject);
@@ -16,14 +20,14 @@ public class DemoController extends GameComponent {
 
     @Override
     public void update() {
-        float angle = 0f;
-        if (key.isDown(GLFW.GLFW_KEY_LEFT)) angle++;
-        if (key.isDown(GLFW.GLFW_KEY_RIGHT)) angle--;
-        gameObject.transform.rotate(angle * Time.deltaTime, new Vector3f(0, 1, 0));
+        if (key.isDown(GLFW.GLFW_KEY_LEFT)) yRotation += rotationSpeed * Time.deltaTime;
+        if (key.isDown(GLFW.GLFW_KEY_RIGHT)) yRotation -= rotationSpeed * Time.deltaTime;
+        gameObject.transform.rotate(yRotation * Time.deltaTime, new Vector3f(0, 1, 0));
+        yRotation -= yRotation * angularDrag;
 
-        angle = 0f;
-        if (key.isDown(GLFW.GLFW_KEY_UP)) angle++;
-        if (key.isDown(GLFW.GLFW_KEY_DOWN)) angle--;
-        gameObject.transform.rotate(angle * Time.deltaTime, new Vector3f(1, 0, 0));
+        if (key.isDown(GLFW.GLFW_KEY_UP)) xRotation += rotationSpeed * Time.deltaTime;
+        if (key.isDown(GLFW.GLFW_KEY_DOWN)) xRotation -= rotationSpeed * Time.deltaTime;
+        gameObject.transform.rotate(xRotation * Time.deltaTime, new Vector3f(1, 0, 0));
+        xRotation -= xRotation * angularDrag;
     }
 }

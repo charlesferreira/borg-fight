@@ -1,19 +1,26 @@
 package br.pucpr.mage;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.*;
 
 public class TextureParameters {
     private int minFilter;
     private int magFilter;
     private int wrapS;
     private int wrapT;
+    private int wrapR;
 
-    public TextureParameters(int minFilter, int magFilter, int wrapS, int wrapT) {
+    public TextureParameters(int minFilter, int magFilter, int wrapS, int wrapT, int wrapR) {
         super();
         this.minFilter = minFilter;
         this.magFilter = magFilter;
         this.wrapS = wrapS;
         this.wrapT = wrapT;
+        this.wrapR = wrapR;
+    }
+
+    public TextureParameters(int minFilter, int magFilter, int wrapS, int wrapT) {
+        this(minFilter, magFilter, wrapS, wrapT, wrapT);
     }
 
     public TextureParameters(int minFilter, int magFilter, int wrapS) {
@@ -48,6 +55,10 @@ public class TextureParameters {
         return wrapT;
     }
 
+    public int getWrapR() {
+        return wrapR;
+    }
+
     public boolean isMipMapped() {
         return minFilter == GL_NEAREST_MIPMAP_NEAREST || minFilter == GL_LINEAR_MIPMAP_NEAREST
                 || minFilter == GL_NEAREST_MIPMAP_LINEAR || minFilter == GL_LINEAR_MIPMAP_LINEAR;
@@ -58,5 +69,6 @@ public class TextureParameters {
         glTexParameteri(target, GL_TEXTURE_MAG_FILTER, magFilter);
         glTexParameteri(target, GL_TEXTURE_WRAP_S, wrapS);
         glTexParameteri(target, GL_TEXTURE_WRAP_T, wrapT);
+        glTexParameteri(target, GL_TEXTURE_WRAP_R, wrapR);
     }
 }
