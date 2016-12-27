@@ -9,7 +9,6 @@ import org.joml.Vector3f;
 public class Skybox extends GameObject {
     @Override
     protected void init() {
-        transform.scale(1000);
         renderer.mesh = MeshFactory.createCubeInverse();
     }
 }

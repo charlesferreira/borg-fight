@@ -2,6 +2,7 @@ package br.pucpr.gema.util.scripts;
 
 import br.pucpr.gema.core.GameComponent;
 import br.pucpr.gema.core.GameObject;
+import br.pucpr.gema.core.Space;
 import br.pucpr.gema.core.Time;
 import br.pucpr.mage.Keyboard;
 import org.joml.Vector3f;
@@ -22,7 +23,7 @@ public class DemoController extends GameComponent {
     public void update() {
         if (key.isDown(GLFW.GLFW_KEY_LEFT)) yRotation += rotationSpeed * Time.deltaTime;
         if (key.isDown(GLFW.GLFW_KEY_RIGHT)) yRotation -= rotationSpeed * Time.deltaTime;
-        gameObject.transform.rotate(yRotation * Time.deltaTime, new Vector3f(0, 1, 0));
+        gameObject.transform.rotate(yRotation * Time.deltaTime, new Vector3f(0, 1, 0), Space.WORLD);
         yRotation -= yRotation * angularDrag;
 
         if (key.isDown(GLFW.GLFW_KEY_UP)) xRotation += rotationSpeed * Time.deltaTime;

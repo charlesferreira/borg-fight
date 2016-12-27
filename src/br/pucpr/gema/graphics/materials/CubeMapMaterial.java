@@ -1,6 +1,6 @@
 package br.pucpr.gema.graphics.materials;
 
-import br.pucpr.mage.CubeMapTexture;
+import br.pucpr.gema.graphics.CubeMapTexture;
 import br.pucpr.mage.Material;
 import br.pucpr.mage.Shader;
 
