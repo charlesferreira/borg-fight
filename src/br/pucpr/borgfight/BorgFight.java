@@ -1,4 +1,4 @@
-package br.pucpr.borgfight.game;
+package br.pucpr.borgfight;
 
 import br.pucpr.borgfight.scene.SkyboxScene;
 import br.pucpr.gema.core.Application;

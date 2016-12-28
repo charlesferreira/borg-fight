@@ -63,12 +63,12 @@ public class CubeMapTexture {
 
 
         Map<Side, Image> images = new HashMap<>(6);
-        images.put(Side.RIGHT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        images.put(Side.LEFT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        images.put(Side.TOP, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        images.put(Side.BOTTOM, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        images.put(Side.BACK, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        images.put(Side.FRONT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        //images.put(Side.RIGHT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        //images.put(Side.LEFT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        //images.put(Side.TOP, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        //images.put(Side.BOTTOM, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        //images.put(Side.BACK, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        //images.put(Side.FRONT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
 
         return images;
     }
