@@ -65,7 +65,9 @@ public abstract class GameScene implements Scene {
         Time.time += secs;
 
         LifeCycleManager.getInstance().start();
+        sceneGraph.forEach(GameObject::fixedUpdate);
         sceneGraph.forEach(GameObject::update);
+        sceneGraph.forEach(GameObject::lateUpdate);
     }
 
     @Override

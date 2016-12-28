@@ -1,11 +1,15 @@
 package br.pucpr.gema.core;
 
+import br.pucpr.gema.core.components.Transform;
+
 abstract public class GameComponent {
+    protected Transform transform;
     protected GameObject gameObject;
 
     public GameComponent(GameObject gameObject) {
         LifeCycleManager.getInstance().notifyCreation(this);
         this.gameObject = gameObject;
+        transform = gameObject.transform;
     }
 
     // métodos de ciclo de vida
@@ -16,9 +20,16 @@ abstract public class GameComponent {
     public void start() {
     }
 
+    public void fixedUpdate() {
+    }
+
     public void update() {
     }
 
     public void lateUpdate() {
+    }
+
+    public GameComponent getComponent(Class<? extends GameComponent> componentClass) {
+        return gameObject.getComponent(componentClass);
     }
 }

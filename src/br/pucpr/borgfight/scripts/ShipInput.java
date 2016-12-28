@@ -20,6 +20,10 @@ public class ShipInput extends GameComponent {
 
     @Override
     public void update() {
+        // reset
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_SPACE))
+            playerMovement.reset();
+
         // pitch
         float pitch = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_UP)) pitch++;
@@ -39,13 +43,9 @@ public class ShipInput extends GameComponent {
         playerMovement.pitch(pitch).yaw(yaw).roll(roll);
 
         // impulso
-        Vector3f thrust = new Vector3f();
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_W)) thrust.add(0, 0, -1);
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_S)) thrust.add(0, 0, 1);
-
-        // strafe
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_Q)) thrust.add(-1, 0, 0);
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_E)) thrust.add(1, 0, 0);
+        float thrust = 0f;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_W)) thrust++;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_S)) thrust--;
 
         playerMovement.thrust(thrust);
     }

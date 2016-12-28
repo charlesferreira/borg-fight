@@ -22,17 +22,31 @@ public class GameObject implements IDrawable {
     }
 
     private void preInit() {
-        renderer = (MeshRenderer) addComponent(MeshRenderer.class);
         transform = (Transform) addComponent(Transform.class);
+        renderer = (MeshRenderer) addComponent(MeshRenderer.class);
     }
 
     protected void init() {
     }
 
+    public final void fixedUpdate() {
+        float deltaTime = Time.deltaTime;
+        while (deltaTime > Time.fixedDeltaTime) {
+            deltaTime -= Time.fixedDeltaTime;
+            components.forEach(GameComponent::fixedUpdate);
+        }
+
+        children.forEach(GameObject::fixedUpdate);
+    }
+
     public final void update() {
         components.forEach(GameComponent::update);
         children.forEach(GameObject::update);
+    }
+
+    public final void lateUpdate() {
         components.forEach(GameComponent::lateUpdate);
+        children.forEach(GameObject::lateUpdate);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class DemoScene extends GameScene {
         GameObject player = GameObject.instantiate(Ship.class);
         camera.setParent(player);
 
-        // fake skybox
+        // skybox
         GameObject.instantiate(MySkybox.class);
 
         // objetos aleatórios

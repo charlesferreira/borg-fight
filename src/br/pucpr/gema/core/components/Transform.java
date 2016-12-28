@@ -142,4 +142,9 @@ public class Transform extends GameComponent {
         this.scale.set(scale);
         return this;
     }
+
+    public Vector3f forward() {
+        Vector3f forward = new Vector3f(0, 0, -1);
+        return getWorldRotation().transform(forward);
+    }
 }
