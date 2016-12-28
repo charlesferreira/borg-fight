@@ -1,5 +1,6 @@
 package br.pucpr.borgfight.scene;
 
+import br.pucpr.borgfight.prefabs.MySkybox;
 import br.pucpr.borgfight.prefabs.Ship;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
@@ -11,7 +12,7 @@ import org.joml.Vector3f;
 public class DemoScene extends GameScene {
     @Override
     protected Vector3f getStartingCameraPos() {
-        return new Vector3f();
+        return new Vector3f(0, 0, 0.5f);
     }
 
     @Override
@@ -21,11 +22,11 @@ public class DemoScene extends GameScene {
         camera.setParent(player);
 
         // fake skybox
-        GameObject.instantiate(Skybox.class);
+        GameObject.instantiate(MySkybox.class);
 
         // objetos aleatórios
-        float size = 100f;
-        float count = 200f;
+        float size = 50f;
+        float count = 100f;
         for (int i = 0; i < count; i++) {
             GameObject random = GameObject.instantiate(Cube.class);
             float r = (float) Math.random();

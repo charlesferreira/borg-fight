@@ -20,20 +20,24 @@ public class CubeMapTexture {
         if (parameters == null) throw new IllegalArgumentException("Parameters can't be null!");
         if (images == null) throw new IllegalArgumentException("Images can't be null!");
         if (images.size() != 6) throw new IllegalArgumentException("Cube map requires 6 images!");
+        int channels = images.get(Side.LEFT).getChannels();
+        if (channels < 3)
+            throw new IllegalArgumentException("Images must be RGB or RGBA!");
         for (Map.Entry<Side, Image> entry : images.entrySet()) {
-            if (entry.getValue().getChannels() < 3)
-                throw new IllegalArgumentException("Image must be RGB or RGBA!");
+            if (entry.getValue().getChannels() != channels)
+                throw new IllegalArgumentException("All images must have same format (RGB or RGBA)!");
         }
 
         // copia os dados
         id = glGenTextures();
         bind();
-        for (int i = 0; i < images.size(); i++) {
-            Image image = images.get(Side.valueOf(i));
+        int format = channels == 3 ? GL_RGB : GL_RGBA;
+        for (Map.Entry<Side, Image> entry : images.entrySet()) {
+            Image image = entry.getValue();
             glTexImage2D(
-                    GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0,
-                    GL_RGB, image.getWidth(), image.getHeight(), 0,
-                    GL_RGB, GL_UNSIGNED_BYTE, image.getPixels());
+                    GL_TEXTURE_CUBE_MAP_POSITIVE_X + entry.getKey().ordinal(), 0,
+                    format, image.getWidth(), image.getHeight(), 0,
+                    format, GL_UNSIGNED_BYTE, image.getPixels());
         }
 
         // ajuste dos parâmetros
@@ -63,12 +67,12 @@ public class CubeMapTexture {
 
 
         Map<Side, Image> images = new HashMap<>(6);
-        //images.put(Side.RIGHT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        //images.put(Side.LEFT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        //images.put(Side.TOP, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        //images.put(Side.BOTTOM, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        //images.put(Side.BACK, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
-        //images.put(Side.FRONT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        images.put(Side.RIGHT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        images.put(Side.LEFT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        images.put(Side.TOP, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        images.put(Side.BOTTOM, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        images.put(Side.BACK, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
+        images.put(Side.FRONT, image.cropRelative(0, 1/3f, 1/2f, 2/3f));
 
         return images;
     }

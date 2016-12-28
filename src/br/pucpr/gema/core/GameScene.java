@@ -27,6 +27,7 @@ public abstract class GameScene implements Scene {
     public void init() {
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
+        glDepthFunc(GL_LEQUAL);
         glPolygonMode(GL_FRONT_FACE, GL_LINE);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
