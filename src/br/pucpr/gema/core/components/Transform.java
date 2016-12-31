@@ -25,13 +25,10 @@ public class Transform extends GameComponent {
     }
 
     public Matrix4f getWorld() {
-        return getParentWorld().mul(getLocalMatrix());
-    }
-
-    private Matrix4f getParentWorld() {
-        return gameObject.getParent() != null
+        Matrix4f parentWorld = gameObject.getParent() != null
                 ? gameObject.getParent().transform.getWorld()
                 : new Matrix4f();
+        return parentWorld.mul(getLocalMatrix());
     }
 
     public Vector3f getLocalPosition() {
@@ -39,8 +36,14 @@ public class Transform extends GameComponent {
     }
 
     public Vector3f getWorldPosition() {
-        Vector3f position = new Vector3f();
-        return getWorld().getTranslation(position);
+        GameObject parent = gameObject.getParent();
+        if (parent != null) {
+            Vector3f parentScale = parent.transform.getLocalScale();
+            Vector3f parentPosition = parent.transform.getWorldPosition();
+            return parentPosition.add(getLocalPosition().fma(1f, parentScale));
+        } else {
+            return getLocalPosition();
+        }
     }
 
     public Quaternionf getLocalRotation() {
@@ -48,19 +51,21 @@ public class Transform extends GameComponent {
     }
 
     public Quaternionf getWorldRotation() {
-        Quaternionf rotation = getLocalRotation();
-        AxisAngle4f axisAngle = new AxisAngle4f();
-        return getWorld().getRotation(axisAngle).get(rotation);
+        Quaternionf parentRotation = gameObject.getParent() != null
+                ? gameObject.getParent().transform.getWorldRotation()
+                : new Quaternionf();
+        return parentRotation.mul(rotation);
     }
 
     public Vector3f getLocalScale() {
         return new Vector3f(scale);
     }
 
-    // todo: testar esse método, fiz com sono
     public Vector3f getWorldScale() {
-        Vector3f scale = new Vector3f();
-        return getWorld().getScale(scale);
+        Vector3f parentScale = gameObject.getParent() != null
+                ? gameObject.getParent().transform.getWorldScale()
+                : new Vector3f(1, 1, 1);
+        return parentScale.fma(1f, scale);
     }
 
     public Transform translate(Vector3f translation) {
@@ -68,10 +73,8 @@ public class Transform extends GameComponent {
     }
 
     public Transform translate(Vector3f translation, Space relativeTo) {
-        if (relativeTo == Space.SELF)
-            getLocalMatrix().transformDirection(translation);
-        else
-            getWorld().invert().transformDirection(translation); // todo: testar com relativeTo == Space.WORLD
+        if (relativeTo == Space.WORLD)
+            translation.rotate(getWorldRotation().invert());
         position.add(translation);
         return this;
     }
@@ -82,7 +85,7 @@ public class Transform extends GameComponent {
 
     public Transform setPosition(Vector3f position, Space relativeTo) {
         if (relativeTo == Space.WORLD)
-            getWorld().invert().transformDirection(position); // todo: testar com relativeTo == Space.WORLD
+            getWorld().invert().transformDirection(position); // todo: testar isso (relativeTo == Space.WORLD)
         this.position.set(position);
         return this;
     }
@@ -107,8 +110,8 @@ public class Transform extends GameComponent {
     }
 
     public Transform setRotation(Quaternionf rotation, Space relativeTo) {
-        if (relativeTo == Space.WORLD)
-            getParentWorld().rotate(rotation);
+        if (relativeTo == Space.WORLD && gameObject.getParent() != null)
+            rotation = gameObject.getParent().transform.getWorldRotation().mul(rotation);
         this.rotation.set(rotation);
         return this;
     }
@@ -143,8 +146,27 @@ public class Transform extends GameComponent {
         return this;
     }
 
+    public Vector3f right() {
+        return new Vector3f(1, 0, 0).rotate(getWorldRotation());
+    }
+
+    public Vector3f left() {
+        return new Vector3f(-1, 0, 0).rotate(getWorldRotation());
+    }
+
+    public Vector3f up() {
+        return new Vector3f(0, 1, 0).rotate(getWorldRotation());
+    }
+
+    public Vector3f down() {
+        return new Vector3f(0, -1, 0).rotate(getWorldRotation());
+    }
+
+    public Vector3f back() {
+        return new Vector3f(0, 0, 1).rotate(getWorldRotation());
+    }
+
     public Vector3f forward() {
-        Vector3f forward = new Vector3f(0, 0, -1);
-        return getWorldRotation().transform(forward);
+        return new Vector3f(0, 0, -1).rotate(getWorldRotation());
     }
 }

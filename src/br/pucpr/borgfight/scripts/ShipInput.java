@@ -34,6 +34,12 @@ public class ShipInput extends GameComponent {
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_A)) yaw++;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_D)) yaw--;
 
+        // 45 degree yaw
+        float yaw45 = 0f;
+        if (Keyboard.getInstance().isPressed(GLFW.GLFW_KEY_J)) yaw45+=Math.PI/4;
+        if (Keyboard.getInstance().isPressed(GLFW.GLFW_KEY_L)) yaw45-=Math.PI/4;
+        playerMovement.yaw45(yaw45);
+
         // roll
         float roll = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_LEFT)) roll++;

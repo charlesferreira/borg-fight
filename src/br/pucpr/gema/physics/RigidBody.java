@@ -31,7 +31,7 @@ public class RigidBody extends GameComponent {
     @Override
     public void fixedUpdate() {
         Vector3f translation = new Vector3f(velocity).mul(Time.fixedDeltaTime);
-        transform.translate(translation, Space.WORLD);
+        transform.translate(translation);
     }
 
     public RigidBody addForce(Vector3f force) {

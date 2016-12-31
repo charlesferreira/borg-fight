@@ -35,6 +35,11 @@ public class ShipMovement extends GameComponent {
         return this;
     }
 
+    public ShipMovement yaw45(float yaw) {
+        transform.rotate(yaw, new Vector3f(0, 1, 0));
+        return this;
+    }
+
     public ShipMovement roll(float roll) {
         transform.rotate(turningSpeed * turbo * roll * Time.deltaTime, new Vector3f(0, 0, 1));
         return this;
