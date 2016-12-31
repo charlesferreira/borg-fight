@@ -46,12 +46,12 @@ public class ShipInput extends GameComponent {
         float thrust = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_W)) thrust++;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_S)) thrust--;
+        playerMovement.thrust(thrust);
 
         // strafe
         float strafe = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_Q)) strafe--;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_E)) strafe++;
-
         playerMovement.strafe(strafe);
     }
 }
