@@ -63,8 +63,9 @@ public abstract class GameScene implements Scene {
         Time.time += secs;
 
         LifeCycleManager.getInstance().start();
-        sceneGraph.fixedUpdate();
+        // todo: inverter chamadas de update e fixedUpdate (problemas no RigidBody)
         sceneGraph.update();
+        sceneGraph.fixedUpdate();
         sceneGraph.lateUpdate();
     }
 
