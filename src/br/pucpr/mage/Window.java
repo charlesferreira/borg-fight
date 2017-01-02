@@ -1,15 +1,13 @@
 package br.pucpr.mage;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
+import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.GL;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
     // The window handle
@@ -23,6 +21,18 @@ public class Window {
         @Override
         public void invoke(long window, int key, int scancode, int action, int mods) {
             Keyboard.getInstance().set(key, action);
+        }
+    };
+    private GLFWCursorPosCallback cursorPosCallback = new GLFWCursorPosCallback() {
+        @Override
+        public void invoke(long window, double xpos, double ypos) {
+            Mouse.getInstance().setPosition(xpos, ypos);
+        }
+    };
+    private GLFWMouseButtonCallback mouseButtonCallback = new GLFWMouseButtonCallback() {
+        @Override
+        public void invoke(long window, int button, int action, int mods) {
+            Mouse.getInstance().setButton(button, action);
         }
     };
 
@@ -71,6 +81,9 @@ public class Window {
         // Setup a key callback. It will be called every time a key is pressed,
         // repeated or released.
         glfwSetKeyCallback(window, keyCallback);
+        glfwSetCursorPosCallback(window, cursorPosCallback);
+        glfwSetMouseButtonCallback(window, mouseButtonCallback);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -107,6 +120,7 @@ public class Window {
             scene.draw();
 
             Keyboard.getInstance().update();
+            Mouse.getInstance().update();
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
