@@ -24,7 +24,7 @@ public class MeshRenderer extends GameComponent implements IDrawable {
     public void draw(Matrix4f world) {
         if (mesh == null) return;
         GameScene scene = SceneManager.getActiveScene();
-        Camera camera = (Camera) scene.camera.getComponent(Camera.class);
+        Camera camera = scene.camera.getComponent(Camera.class);
         Shader shader = material.getShader();
         shader.bind()
                 .setUniform("uView", camera.getView())

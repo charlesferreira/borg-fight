@@ -19,8 +19,8 @@ public class GameObject implements IDrawable {
     }
 
     void preInit() {
-        transform = (Transform) addComponent(Transform.class);
-        renderer = (MeshRenderer) addComponent(MeshRenderer.class);
+        transform = addComponent(Transform.class);
+        renderer = addComponent(MeshRenderer.class);
     }
 
     protected void init() {
@@ -82,23 +82,23 @@ public class GameObject implements IDrawable {
         return parent;
     }
 
-    public GameComponent addComponent(Class<? extends GameComponent> componentClass) {
+    public <T extends GameComponent> T addComponent(Class<T> componentClass) {
         try {
             GameComponent component = componentClass.newInstance();
             component.init(this);
             component.awake();
             components.add(component);
-            return component;
+            return (T) component;
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public GameComponent getComponent(Class<? extends GameComponent> componentClass) {
-        for (GameComponent c : components) {
-            if (componentClass.isAssignableFrom(c.getClass()))
-                return c;
+    public <T extends GameComponent> T getComponent(Class<T> componentClass) {
+        for (GameComponent component : components) {
+            if (componentClass.isAssignableFrom(component.getClass()))
+                return (T) component;
         }
         return null;
     }
@@ -107,7 +107,7 @@ public class GameObject implements IDrawable {
         return prepareInstance(new GameObject());
     }
 
-    public static GameObject instantiate(Class<? extends GameObject> prefabClass) {
+    public static <T extends GameObject> T instantiate(Class<T> prefabClass) {
         try {
             return prepareInstance(prefabClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
@@ -117,14 +117,14 @@ public class GameObject implements IDrawable {
         return null;
     }
 
-    public static GameObject instantiate(Class<? extends GameObject> prefabClass, GameObject parent) {
+    public static <T extends GameObject> T instantiate(Class<T> prefabClass, GameObject parent) {
         GameObject instance = instantiate(prefabClass);
         if (instance != null)
             instance.setParent(parent);
-        return instance;
+        return (T) instance;
     }
 
-    private static GameObject prepareInstance(GameObject instance) {
+    private static <T extends GameObject> T prepareInstance(T instance) {
         instance.preInit();
         instance.init();
         SceneManager.getActiveScene().addChild(instance);

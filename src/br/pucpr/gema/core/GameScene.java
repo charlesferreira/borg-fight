@@ -89,4 +89,8 @@ public abstract class GameScene implements Scene {
 
     private void onSceneUnload() {
     }
+
+    public <T extends GameComponent> T FindObjectOfType(Class<T> componentClass) {
+        return null;
+    }
 }

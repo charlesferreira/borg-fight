@@ -27,7 +27,7 @@ public class RigidBody extends GameComponent {
 
     @Override
     public void start() {
-        transform = (Transform) getComponent(Transform.class);
+        transform = getComponent(Transform.class);
     }
 
     @Override

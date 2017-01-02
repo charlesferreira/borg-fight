@@ -53,7 +53,7 @@ public class Transform extends GameComponent {
         Quaternionf parentRotation = gameObject.getParent() != null
                 ? gameObject.getParent().transform.getWorldRotation()
                 : new Quaternionf();
-        return parentRotation.mul(rotation);
+        return getLocalRotation().mul(parentRotation);
     }
 
     public Vector3f getLocalScale() {

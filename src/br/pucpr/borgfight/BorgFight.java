@@ -4,9 +4,9 @@ import br.pucpr.borgfight.scene.ShipScene;
 import br.pucpr.gema.core.Application;
 import br.pucpr.gema.core.GameScene;
 
-public class BorgFight extends Application {
+public class BorgFight <T extends GameScene> extends Application {
 
-    public BorgFight(Class<? extends GameScene> startingSceneClass) {
+    public BorgFight(Class<T> startingSceneClass) {
         super(startingSceneClass);
     }
 

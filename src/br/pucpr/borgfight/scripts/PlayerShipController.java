@@ -12,7 +12,7 @@ public class PlayerShipController extends GameComponent {
 
     @Override
     public void start() {
-        playerMovement = (ShipMovement) gameObject.getComponent(ShipMovement.class);
+        playerMovement = gameObject.getComponent(ShipMovement.class);
         lastMousePos = Input.mousePosition();
     }
 

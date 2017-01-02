@@ -7,7 +7,7 @@ public class EnemyShipController extends GameComponent {
 
     @Override
     public void start() {
-        movement = (ShipMovement) gameObject.getComponent(ShipMovement.class);
+        movement = getComponent(ShipMovement.class);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class ShipMovement extends GameComponent {
 
     @Override
     public void start() {
-        rb = (RigidBody) getComponent(RigidBody.class);
+        rb = getComponent(RigidBody.class);
         rb.setMass(1f)
                 .setDrag(0.001f)
                 .setAngularDrag(0.005f);
