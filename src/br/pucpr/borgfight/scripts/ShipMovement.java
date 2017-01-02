@@ -2,17 +2,13 @@ package br.pucpr.borgfight.scripts;
 
 import br.pucpr.gema.core.GameComponent;
 import br.pucpr.gema.core.GameObject;
-import br.pucpr.gema.core.Time;
 import br.pucpr.gema.physics.ForceMode;
 import br.pucpr.gema.physics.RigidBody;
-import br.pucpr.mage.Keyboard;
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
 
 public class ShipMovement extends GameComponent {
     private float turningSpeed = 1f;
     private float movementSpeed = 20f;
-    private float turbo = 1f;
 
     RigidBody rb;
 
@@ -24,45 +20,38 @@ public class ShipMovement extends GameComponent {
     public void start() {
         rb = (RigidBody) getComponent(RigidBody.class);
         rb.setMass(1f)
-                .setDrag(0.005f)
+                .setDrag(0.001f)
                 .setAngularDrag(0.005f);
     }
 
     public ShipMovement pitch(float pitch) {
-        Vector3f torque = new Vector3f(1, 0, 0).mul(turningSpeed * turbo * pitch);
+        Vector3f torque = new Vector3f(1, 0, 0).mul(turningSpeed * pitch);
         rb.addTorque(torque, ForceMode.FORCE);
         return this;
     }
 
     public ShipMovement yaw(float yaw) {
-        Vector3f torque = new Vector3f(0, 1, 0).mul(turningSpeed * turbo * yaw);
+        Vector3f torque = new Vector3f(0, 1, 0).mul(turningSpeed * yaw);
         rb.addTorque(torque, ForceMode.FORCE);
         return this;
     }
 
     public ShipMovement roll(float roll) {
-        Vector3f torque = new Vector3f(0, 0, 1).mul(turningSpeed * turbo * roll);
+        Vector3f torque = new Vector3f(0, 0, 1).mul(turningSpeed * roll);
         rb.addTorque(torque, ForceMode.FORCE);
         return this;
     }
 
     public ShipMovement thrust(float thrust) {
-        Vector3f force = transform.forward().mul(thrust * movementSpeed * turbo);
+        Vector3f force = transform.forward().mul(thrust * movementSpeed);
         rb.addForce(force);
         return this;
     }
 
     public ShipMovement strafe(float strafe) {
-        Vector3f force = transform.right().mul(strafe * movementSpeed * turbo);
+        Vector3f force = transform.right().mul(strafe * movementSpeed);
         rb.addForce(force);
         return this;
-    }
-
-    @Override
-    public void update() {
-        turbo = Keyboard.getInstance().isDown(GLFW.GLFW_KEY_LEFT_SHIFT)
-                ? 5f
-                : 1f;
     }
 
     public void reset() {

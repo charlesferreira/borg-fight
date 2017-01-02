@@ -1,11 +1,10 @@
 package br.pucpr.borgfight.scene;
 
 import br.pucpr.borgfight.prefabs.MySkybox;
-import br.pucpr.borgfight.prefabs.Ship;
+import br.pucpr.borgfight.prefabs.PlayerShip;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
 import br.pucpr.gema.core.objects.Cube;
-import br.pucpr.gema.core.objects.Skybox;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
 import org.joml.Vector3f;
 
@@ -18,7 +17,7 @@ public class DemoScene extends GameScene {
     @Override
     protected void onSceneLoad() {
         // player
-        GameObject player = GameObject.instantiate(Ship.class);
+        GameObject player = GameObject.instantiate(PlayerShip.class);
         camera.setParent(player);
 
         // skybox

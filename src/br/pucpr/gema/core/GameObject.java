@@ -21,7 +21,7 @@ public class GameObject implements IDrawable {
     protected GameObject() {
     }
 
-    private void preInit() {
+    void preInit() {
         transform = (Transform) addComponent(Transform.class);
         renderer = (MeshRenderer) addComponent(MeshRenderer.class);
     }
@@ -29,7 +29,7 @@ public class GameObject implements IDrawable {
     protected void init() {
     }
 
-    public final void fixedUpdate() {
+    final void fixedUpdate() {
         float deltaTime = Time.deltaTime;
         while (deltaTime > Time.fixedDeltaTime) {
             deltaTime -= Time.fixedDeltaTime;
@@ -44,7 +44,7 @@ public class GameObject implements IDrawable {
         children.forEach(GameObject::update);
     }
 
-    public final void lateUpdate() {
+    final void lateUpdate() {
         components.forEach(GameComponent::lateUpdate);
         children.forEach(GameObject::lateUpdate);
     }
@@ -59,21 +59,25 @@ public class GameObject implements IDrawable {
 
     private GameObject removeChild(GameObject child) {
         children.remove(child);
+        child.parent = null;
         return this;
     }
 
     public GameObject setParent(GameObject parent) {
-        removeFromParent();
-        parent.children.add(this);
-        this.parent = parent;
+        if (parent == null) {
+            SceneManager.getActiveScene().addChild(this);
+        }
+        else {
+            removeFromParent();
+            parent.children.add(this);
+            this.parent = parent;
+        }
         return this;
     }
 
-    public GameObject removeFromParent() {
-        if (parent != null) {
+    private GameObject removeFromParent() {
+        if (parent != null)
             parent.removeChild(this);
-            parent = null;
-        }
 
         return this;
     }

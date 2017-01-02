@@ -6,10 +6,10 @@ import br.pucpr.mage.Keyboard;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
-public class ShipInput extends GameComponent {
+public class PlayerShipController extends GameComponent {
     private ShipMovement playerMovement;
 
-    public ShipInput(GameObject gameObject) {
+    public PlayerShipController(GameObject gameObject) {
         super(gameObject);
     }
 
@@ -24,10 +24,16 @@ public class ShipInput extends GameComponent {
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_SPACE))
             playerMovement.reset();
 
+        // turbo
+        float turbo = Keyboard.getInstance().isDown(GLFW.GLFW_KEY_LEFT_SHIFT)
+                ? 5f
+                : 1f;
+
+
         // pitch
         float pitch = 0f;
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_UP)) pitch++;
-        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_DOWN)) pitch--;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_UP)) pitch--;
+        if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_DOWN)) pitch++;
 
         // yaw
         float yaw = 0f;
@@ -40,18 +46,21 @@ public class ShipInput extends GameComponent {
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_RIGHT)) roll--;
 
         // aplica rotações
-        playerMovement.pitch(pitch).yaw(yaw).roll(roll);
+        playerMovement
+                .pitch(pitch * turbo)
+                .yaw(yaw * turbo)
+                .roll(roll * turbo);
 
         // impulso
         float thrust = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_W)) thrust++;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_S)) thrust--;
-        playerMovement.thrust(thrust);
+        playerMovement.thrust(thrust * turbo);
 
         // strafe
         float strafe = 0f;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_Q)) strafe--;
         if (Keyboard.getInstance().isDown(GLFW.GLFW_KEY_E)) strafe++;
-        playerMovement.strafe(strafe);
+        playerMovement.strafe(strafe * turbo);
     }
 }

@@ -7,16 +7,13 @@ import br.pucpr.mage.phong.DirectionalLight;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public abstract class GameScene implements Scene {
     public GameObject camera;
     public DirectionalLight light;
-    private List<GameObject> sceneGraph = new ArrayList<>();
+    private GameObject sceneGraph = new GameObject();
 
     protected GameScene() {
     }
@@ -31,6 +28,7 @@ public abstract class GameScene implements Scene {
         glPolygonMode(GL_FRONT_FACE, GL_LINE);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+        sceneGraph.preInit();
         createCamera();
         createLight();
 
@@ -65,15 +63,15 @@ public abstract class GameScene implements Scene {
         Time.time += secs;
 
         LifeCycleManager.getInstance().start();
-        sceneGraph.forEach(GameObject::fixedUpdate);
-        sceneGraph.forEach(GameObject::update);
-        sceneGraph.forEach(GameObject::lateUpdate);
+        sceneGraph.fixedUpdate();
+        sceneGraph.update();
+        sceneGraph.lateUpdate();
     }
 
     @Override
     public final void draw() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        sceneGraph.forEach(node -> node.draw(new Matrix4f()));
+        sceneGraph.draw(new Matrix4f());
     }
 
     @Override
@@ -82,7 +80,7 @@ public abstract class GameScene implements Scene {
     }
 
     protected GameObject addChild(GameObject child) {
-        sceneGraph.add(child);
+        child.setParent(sceneGraph);
         return child;
     }
 

@@ -1,8 +1,11 @@
 package br.pucpr.borgfight.prefabs;
 
+import br.pucpr.borgfight.scripts.EnemyShipController;
+import br.pucpr.borgfight.scripts.ShipMovement;
 import br.pucpr.cg.MeshFactory;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
+import br.pucpr.gema.physics.RigidBody;
 import org.joml.Vector3f;
 
 public class TempEnemy extends GameObject {
@@ -13,6 +16,10 @@ public class TempEnemy extends GameObject {
         float b = (float) Math.random();
         renderer.mesh = MeshFactory.createCube();
         renderer.material = new DefaultMaterial(new Vector3f(r, g, b));
+
+        addComponent(RigidBody.class);
+        addComponent(ShipMovement.class);
+        addComponent(EnemyShipController.class);
     }
 
     public TempEnemy randomize(float distance) {
@@ -32,4 +39,5 @@ public class TempEnemy extends GameObject {
                 );
         return this;
     }
+
 }
