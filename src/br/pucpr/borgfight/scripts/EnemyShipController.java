@@ -1,16 +1,9 @@
 package br.pucpr.borgfight.scripts;
 
 import br.pucpr.gema.core.GameComponent;
-import br.pucpr.gema.core.GameObject;
-import br.pucpr.mage.Keyboard;
-import org.lwjgl.glfw.GLFW;
 
 public class EnemyShipController extends GameComponent {
     private ShipMovement movement;
-
-    public EnemyShipController(GameObject gameObject) {
-        super(gameObject);
-    }
 
     @Override
     public void start() {

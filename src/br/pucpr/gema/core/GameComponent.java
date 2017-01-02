@@ -6,7 +6,7 @@ abstract public class GameComponent {
     protected Transform transform;
     protected GameObject gameObject;
 
-    public GameComponent(GameObject gameObject) {
+    final void init(GameObject gameObject) {
         LifeCycleManager.getInstance().notifyCreation(this);
         this.gameObject = gameObject;
         transform = gameObject.transform;

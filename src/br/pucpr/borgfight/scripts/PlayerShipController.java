@@ -1,7 +1,6 @@
 package br.pucpr.borgfight.scripts;
 
 import br.pucpr.gema.core.GameComponent;
-import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.Input;
 import br.pucpr.gema.core.Time;
 import org.joml.Vector2f;
@@ -10,10 +9,6 @@ import org.lwjgl.glfw.GLFW;
 public class PlayerShipController extends GameComponent {
     private ShipMovement playerMovement;
     private Vector2f lastMousePos;
-
-    public PlayerShipController(GameObject gameObject) {
-        super(gameObject);
-    }
 
     @Override
     public void start() {
@@ -40,8 +35,8 @@ public class PlayerShipController extends GameComponent {
 
         // roll
         float roll = 0f;
-        if (Input.getKey(GLFW.GLFW_KEY_LEFT)) roll--;
-        if (Input.getKey(GLFW.GLFW_KEY_RIGHT)) roll++;
+        if (Input.getKey(GLFW.GLFW_KEY_A)) roll--;
+        if (Input.getKey(GLFW.GLFW_KEY_D)) roll++;
 
         // aplica rotações
         playerMovement

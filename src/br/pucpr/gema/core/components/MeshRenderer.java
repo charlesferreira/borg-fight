@@ -1,7 +1,6 @@
 package br.pucpr.gema.core.components;
 
 import br.pucpr.gema.core.GameComponent;
-import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
 import br.pucpr.gema.core.SceneManager;
 import br.pucpr.gema.core.objects.Camera;
@@ -16,8 +15,8 @@ public class MeshRenderer extends GameComponent implements IDrawable {
     public Mesh mesh;
     public Material material;
 
-    public MeshRenderer(GameObject gameObject) {
-        super(gameObject);
+    @Override
+    public void awake() {
         material = new DefaultMaterial();
     }
 

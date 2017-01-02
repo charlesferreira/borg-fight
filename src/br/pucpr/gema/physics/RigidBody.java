@@ -1,7 +1,6 @@
 package br.pucpr.gema.physics;
 
 import br.pucpr.gema.core.GameComponent;
-import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.Time;
 import br.pucpr.gema.core.components.Transform;
 import org.joml.Vector3f;
@@ -17,10 +16,6 @@ public class RigidBody extends GameComponent {
     private Transform transform;
     private Vector3f acceleration;
     private Vector3f angularAcceleration;
-
-    public RigidBody(GameObject gameObject) {
-        super(gameObject);
-    }
 
     @Override
     public void awake() {
@@ -51,7 +46,7 @@ public class RigidBody extends GameComponent {
         // rotação
         Vector3f rotation = new Vector3f(angularVelocity)
                 .add(new Vector3f(angularAcceleration)
-                    .mul(0.5f * Time.fixedDeltaTime))
+                        .mul(0.5f * Time.fixedDeltaTime))
                 .mul(Time.fixedDeltaTime);
         float radians = rotation.length();
         if (radians > 0) {

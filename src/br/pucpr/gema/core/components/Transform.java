@@ -3,7 +3,6 @@ package br.pucpr.gema.core.components;
 import br.pucpr.gema.core.GameComponent;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.Space;
-import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -13,8 +12,8 @@ public class Transform extends GameComponent {
     private Quaternionf rotation;
     private Vector3f scale;
 
-    public Transform(GameObject gameObject) {
-        super(gameObject);
+    @Override
+    public void awake() {
         position = new Vector3f();
         rotation = new Quaternionf();
         scale = new Vector3f(1f, 1f, 1f);

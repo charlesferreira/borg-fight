@@ -3,11 +3,8 @@ package br.pucpr.gema.core;
 import br.pucpr.gema.core.components.MeshRenderer;
 import br.pucpr.gema.core.components.Transform;
 import br.pucpr.gema.graphics.IDrawable;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.joml.Matrix4f;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +63,7 @@ public class GameObject implements IDrawable {
     public GameObject setParent(GameObject parent) {
         if (parent == null) {
             SceneManager.getActiveScene().addChild(this);
-        }
-        else {
+        } else {
             removeFromParent();
             parent.children.add(this);
             this.parent = parent;
@@ -88,11 +84,12 @@ public class GameObject implements IDrawable {
 
     public GameComponent addComponent(Class<? extends GameComponent> componentClass) {
         try {
-            GameComponent component = componentClass.getDeclaredConstructor(GameObject.class).newInstance(this);
+            GameComponent component = componentClass.newInstance();
+            component.init(this);
             component.awake();
             components.add(component);
             return component;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;

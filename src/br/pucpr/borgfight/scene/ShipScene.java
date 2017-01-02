@@ -3,10 +3,9 @@ package br.pucpr.borgfight.scene;
 import br.pucpr.borgfight.prefabs.MySkybox;
 import br.pucpr.borgfight.prefabs.PlayerShip;
 import br.pucpr.borgfight.prefabs.TempEnemy;
+import br.pucpr.borgfight.scripts.SmoothFollower;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
-import br.pucpr.gema.core.objects.Cube;
-import br.pucpr.gema.graphics.materials.DefaultMaterial;
 import org.joml.Vector3f;
 
 public class ShipScene extends GameScene {
@@ -19,10 +18,8 @@ public class ShipScene extends GameScene {
     protected void onSceneLoad() {
         // player
         GameObject player = GameObject.instantiate(PlayerShip.class);
-        GameObject cube = GameObject.instantiate(Cube.class);
-        cube.renderer.material = new DefaultMaterial(new Vector3f(1, 0, 0));
-        cube.setParent(player);
-        camera.setParent(cube);
+        camera.addComponent(SmoothFollower.class);
+        camera.setParent(player);
 
         // skybox
         GameObject.instantiate(MySkybox.class);

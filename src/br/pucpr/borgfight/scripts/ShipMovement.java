@@ -1,7 +1,6 @@
 package br.pucpr.borgfight.scripts;
 
 import br.pucpr.gema.core.GameComponent;
-import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.physics.ForceMode;
 import br.pucpr.gema.physics.RigidBody;
 import org.joml.Vector3f;
@@ -11,10 +10,6 @@ public class ShipMovement extends GameComponent {
     private float movementSpeed = 20f;
 
     RigidBody rb;
-
-    public ShipMovement(GameObject gameObject) {
-        super(gameObject);
-    }
 
     @Override
     public void start() {

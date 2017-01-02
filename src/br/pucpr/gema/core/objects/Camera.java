@@ -1,7 +1,6 @@
 package br.pucpr.gema.core.objects;
 
 import br.pucpr.gema.core.GameComponent;
-import br.pucpr.gema.core.GameObject;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
@@ -19,10 +18,6 @@ public class Camera extends GameComponent {
     private float aspect;
     private Matrix4f view = new Matrix4f();
     private Matrix4f projection = new Matrix4f();
-
-    public Camera(GameObject gameObject) {
-        super(gameObject);
-    }
 
     public float getFov() {
         return fov;

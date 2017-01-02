@@ -1,7 +1,6 @@
 package br.pucpr.gema.util.scripts;
 
 import br.pucpr.gema.core.GameComponent;
-import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.Space;
 import br.pucpr.gema.core.Time;
 import br.pucpr.mage.Keyboard;
@@ -14,10 +13,6 @@ public class DemoController extends GameComponent {
     float yRotation = 0f;
     private float rotationSpeed = 3f;
     private float angularDrag = 0.05f;
-
-    public DemoController(GameObject gameObject) {
-        super(gameObject);
-    }
 
     @Override
     public void update() {
