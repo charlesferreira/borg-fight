@@ -28,11 +28,11 @@ public class TempEnemy extends GameObject {
                         (float) Math.random() * 2f - 1f,
                         (float) Math.random() * 2f - 1f,
                         (float) Math.random() * 2f - 1f).mul(distance))
-                .scale(new Vector3f(
-                        (float) (Math.random()) * 0.5f + 0.5f,
-                        (float) (Math.random()) * 0.5f + 0.5f,
-                        (float) (Math.random()) * 0.5f + 0.5f
-                ))
+//                .scale(new Vector3f(
+//                        (float) (Math.random()) * 0.5f + 0.5f,
+//                        (float) (Math.random()) * 0.5f + 0.5f,
+//                        (float) (Math.random()) * 0.5f + 0.5f
+//                ))
                 .rotate(
                         (float) (Math.random() * 2f * Math.PI),
                         transform.getLocalPosition()

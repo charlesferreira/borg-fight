@@ -16,10 +16,6 @@ abstract public class GameComponent {
         return gameObject.getComponent(componentClass);
     }
 
-    public <T extends GameComponent> T FindObjectOfType(Class<T> componentClass) {
-        return SceneManager.getActiveScene().FindObjectOfType(componentClass);
-    }
-
 
     // métodos de ciclo de vida
 

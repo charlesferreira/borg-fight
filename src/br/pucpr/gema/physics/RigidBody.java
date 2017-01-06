@@ -17,6 +17,8 @@ public class RigidBody extends GameComponent {
     private Vector3f acceleration;
     private Vector3f angularAcceleration;
 
+    private boolean outDated = false;
+
     @Override
     public void awake() {
         velocity = new Vector3f();
@@ -32,37 +34,32 @@ public class RigidBody extends GameComponent {
 
     @Override
     public void fixedUpdate() {
-        // translação
-        Vector3f translation = new Vector3f(velocity)        // v0
-                .add(new Vector3f(acceleration)
-                        .mul(0.5f * Time.fixedDeltaTime))    // a*t/2
-                .mul(Time.fixedDeltaTime);                   // *t
-        transform.translate(translation);
+        if (outDated) {
+            outDated = false;
+            velocity.add(new Vector3f(acceleration).mul(Time.deltaTime));
+            acceleration.set(0);
+            angularVelocity.add(new Vector3f(angularAcceleration).mul(Time.deltaTime));
+            angularAcceleration.set(0);
+        }
 
-        // aceleração linear
-        velocity.add(new Vector3f(acceleration).mul(Time.fixedDeltaTime))
-                .mul(1f - drag);
+        // translação
+        Vector3f translation = new Vector3f(velocity).mul(Time.fixedDeltaTime);
+        transform.translate(translation);
+        velocity.mul(1f - drag);
 
         // rotação
-        Vector3f rotation = new Vector3f(angularVelocity)
-                .add(new Vector3f(angularAcceleration)
-                        .mul(0.5f * Time.fixedDeltaTime))
-                .mul(Time.fixedDeltaTime);
+        Vector3f rotation = new Vector3f(angularVelocity).mul(Time.fixedDeltaTime);
         float radians = rotation.length();
         if (radians > 0) {
             Vector3f axis = rotation.normalize();
             transform.rotate(radians, axis);
         }
-
-        // aceleração angular
-        angularVelocity.add(new Vector3f(angularAcceleration).mul(Time.fixedDeltaTime))
-                .mul(1f - angularDrag);
+        angularVelocity.mul(1f - angularDrag);
     }
 
     @Override
     public void lateUpdate() {
-        acceleration.set(0);
-        angularAcceleration.set(0);
+        outDated = true;
     }
 
     public RigidBody addForce(Vector3f force) {
@@ -106,16 +103,19 @@ public class RigidBody extends GameComponent {
     }
 
     public RigidBody setMass(float mass) {
+        assert (mass > 0);
         this.mass = mass;
         return this;
     }
 
     public RigidBody setDrag(float drag) {
+        assert (drag >= 0);
         this.drag = drag;
         return this;
     }
 
     public RigidBody setAngularDrag(float angularDrag) {
+        assert (angularDrag >= 0);
         this.angularDrag = angularDrag;
         return this;
     }

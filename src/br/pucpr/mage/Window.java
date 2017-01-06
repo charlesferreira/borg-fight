@@ -97,6 +97,9 @@ public class Window {
 
         // Make the window visible
         glfwShowWindow(window);
+
+        // Poll events once so the mouse position is defined when the game start
+        glfwPollEvents();
     }
 
     private void loop() {

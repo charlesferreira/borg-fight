@@ -7,26 +7,46 @@ import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 public class PlayerShipController extends GameComponent {
-    private ShipMovement playerMovement;
+    private ShipMovement movement;
+    private BasicWeapon weapon;
     private Vector2f lastMousePos;
 
     @Override
     public void start() {
-        playerMovement = gameObject.getComponent(ShipMovement.class);
+        movement = getComponent(ShipMovement.class);
+        weapon = getComponent(BasicWeapon.class);
         lastMousePos = Input.mousePosition();
     }
 
     @Override
     public void update() {
-        // reset
-        if (Input.getKey(GLFW.GLFW_KEY_SPACE))
-            playerMovement.reset();
+        if (Input.getKey(GLFW.GLFW_KEY_SPACE)) movement.reset();
 
+        move();
+        steer();
+        fire();
+    }
+
+    private void move() {
         // turbo
         float turbo = Input.getKey(GLFW.GLFW_KEY_LEFT_SHIFT)
                 ? 5f
                 : 1f;
 
+        // propulsão
+        float thrust = 0f;
+        if (Input.getKey(GLFW.GLFW_KEY_W)) thrust++;
+        if (Input.getKey(GLFW.GLFW_KEY_S)) thrust--;
+        movement.thrust(thrust * turbo);
+
+        // strafe
+        float strafe = 0f;
+        if (Input.getKey(GLFW.GLFW_KEY_Q)) strafe--;
+        if (Input.getKey(GLFW.GLFW_KEY_E)) strafe++;
+        movement.strafe(strafe * turbo);
+    }
+
+    private void steer() {
         // pitch
         float pitch = (Input.mousePosition().y - lastMousePos.y) * Time.deltaTime;
 
@@ -39,24 +59,17 @@ public class PlayerShipController extends GameComponent {
         if (Input.getKey(GLFW.GLFW_KEY_D)) roll++;
 
         // aplica rotações
-        playerMovement
-                .pitch(pitch * turbo)
-                .yaw(yaw * turbo)
-                .roll(roll * turbo);
-
-        // impulso
-        float thrust = 0f;
-        if (Input.getKey(GLFW.GLFW_KEY_W)) thrust++;
-        if (Input.getKey(GLFW.GLFW_KEY_S)) thrust--;
-        playerMovement.thrust(thrust * turbo);
-
-        // strafe
-        float strafe = 0f;
-        if (Input.getKey(GLFW.GLFW_KEY_Q)) strafe--;
-        if (Input.getKey(GLFW.GLFW_KEY_E)) strafe++;
-        playerMovement.strafe(strafe * turbo);
+        movement
+                .pitch(pitch)
+                .yaw(yaw)
+                .roll(roll);
 
         // atualiza posição do mouse
         lastMousePos = Input.mousePosition();
+    }
+
+    private void fire() {
+        if (Input.getMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT))
+            weapon.fire();
     }
 }

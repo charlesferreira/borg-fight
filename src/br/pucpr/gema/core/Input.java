@@ -35,4 +35,8 @@ public class Input {
     public static Vector2f mousePosition() {
         return mouse.getPosition();
     }
+
+    public static boolean mouseMoved() {
+        return mouse.moved();
+    }
 }

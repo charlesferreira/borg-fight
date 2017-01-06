@@ -45,4 +45,31 @@ public class DefaultMaterial extends SimpleMaterial {
         getShader().setUniform("isSolidColor", isSolidColor);
         super.apply();
     }
+
+    public DefaultMaterial setColor(Vector3f color) {
+        setAmbientColor(color);
+        setDiffuseColor(color);
+        setSpecularColor(color);
+        return this;
+    }
+
+    public DefaultMaterial setAmbientColor(Vector3f ambientColor) {
+        this.ambientColor = ambientColor;
+        return this;
+    }
+
+    public DefaultMaterial setDiffuseColor(Vector3f diffuseColor) {
+        this.diffuseColor = diffuseColor;
+        return this;
+    }
+
+    public DefaultMaterial setSpecularColor(Vector3f specularColor) {
+        this.specularColor = specularColor;
+        return this;
+    }
+
+    public DefaultMaterial setSpecularPower(float specularPower) {
+        this.specularPower = specularPower;
+        return this;
+    }
 }

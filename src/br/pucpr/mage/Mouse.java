@@ -16,6 +16,7 @@ public class Mouse {
     private Set<Integer> releasedButtons = new HashSet<>();
 
     private Vector2f position = new Vector2f();
+    private boolean moved = false;
 
     private Mouse() {
     }
@@ -38,6 +39,7 @@ public class Mouse {
 
     void setPosition(double x, double y) {
         position.set((float)x, (float)y);
+        moved = true;
     }
 
     public Vector2f getPosition() {
@@ -58,5 +60,10 @@ public class Mouse {
     void update() {
         pressedButtons.clear();
         releasedButtons.clear();
+        moved = false;
+    }
+
+    public boolean moved() {
+        return moved;
     }
 }

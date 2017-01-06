@@ -39,7 +39,7 @@ public abstract class GameScene implements Scene {
         // criação da câmera
         camera = GameObject.instantiate();
         camera.addComponent(Camera.class);
-        camera.transform.setPosition(getStartingCameraPos(), Space.WORLD);
+        camera.transform.setLocalPosition(getStartingCameraPos());
     }
 
     private void createLight() {
@@ -60,19 +60,19 @@ public abstract class GameScene implements Scene {
         }
 
         Time.deltaTime = secs;
+        Time.fixedDeltaTime = secs;
         Time.time += secs;
 
         LifeCycleManager.getInstance().start();
-        // todo: inverter chamadas de update e fixedUpdate (problemas no RigidBody)
-        sceneGraph.update();
         sceneGraph.fixedUpdate();
+        sceneGraph.update();
         sceneGraph.lateUpdate();
     }
 
     @Override
     public final void draw() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        sceneGraph.draw(new Matrix4f());
+        sceneGraph.draw();
     }
 
     @Override
@@ -88,9 +88,5 @@ public abstract class GameScene implements Scene {
     protected abstract void onSceneLoad();
 
     private void onSceneUnload() {
-    }
-
-    public <T extends GameComponent> T FindObjectOfType(Class<T> componentClass) {
-        return null;
     }
 }

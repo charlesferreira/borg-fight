@@ -11,6 +11,6 @@ public class BorgFight <T extends GameScene> extends Application {
     }
 
     public static void main(String[] args) {
-        new Application(ShipScene.class);
+        new Application(ShipScene.class, "Borg Fight", 1366, 768);
     }
 }

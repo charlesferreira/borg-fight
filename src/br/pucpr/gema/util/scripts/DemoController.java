@@ -18,7 +18,7 @@ public class DemoController extends GameComponent {
     public void update() {
         if (key.isDown(GLFW.GLFW_KEY_LEFT)) yRotation += rotationSpeed * Time.deltaTime;
         if (key.isDown(GLFW.GLFW_KEY_RIGHT)) yRotation -= rotationSpeed * Time.deltaTime;
-        gameObject.transform.rotate(yRotation * Time.deltaTime, new Vector3f(0, 1, 0), Space.WORLD);
+        gameObject.transform.rotate(yRotation * Time.deltaTime, new Vector3f(0, 1, 0));
         yRotation -= yRotation * angularDrag;
 
         if (key.isDown(GLFW.GLFW_KEY_UP)) xRotation += rotationSpeed * Time.deltaTime;

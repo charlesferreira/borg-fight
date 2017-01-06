@@ -15,7 +15,7 @@ public class MySkybox extends Skybox {
         super.init();
 
         Map<Side, Image> images = new HashMap<>(6);
-        String path = "skybox/";
+        String path = "br/pucpr/borgfight/assets/textures/skybox/";
         images.put(Side.RIGHT, new Image(path + "rt.jpg"));
         images.put(Side.LEFT, new Image(path + "lf.jpg"));
         images.put(Side.TOP, new Image(path + "up.jpg"));

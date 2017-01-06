@@ -52,7 +52,7 @@ public class Camera extends GameComponent {
     }
 
     private void updatePosition() {
-        position = gameObject.transform.getWorldPosition();
+        position = transform.getWorldPosition();
     }
 
     private void updateAspect() {
@@ -64,7 +64,7 @@ public class Camera extends GameComponent {
     }
 
     private void updateViewMatrix() {
-        Matrix4f world = gameObject.transform.getWorld();
+        Matrix4f world = transform.getWorld();
 
         // posição e direção da câmera no mundo
         Vector3f eye = world.transformPosition(new Vector3f());

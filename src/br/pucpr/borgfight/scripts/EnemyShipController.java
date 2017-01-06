@@ -11,7 +11,7 @@ public class EnemyShipController extends GameComponent {
     }
 
     @Override
-    public void fixedUpdate() {
-        movement.pitch(1f).yaw(1f).roll(1f);
+    public void update() {
+//        movement.pitch(1f).yaw(1f).roll(1f);
     }
 }

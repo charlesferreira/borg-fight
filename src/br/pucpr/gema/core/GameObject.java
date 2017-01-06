@@ -2,18 +2,20 @@ package br.pucpr.gema.core;
 
 import br.pucpr.gema.core.components.MeshRenderer;
 import br.pucpr.gema.core.components.Transform;
-import br.pucpr.gema.graphics.IDrawable;
-import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameObject implements IDrawable {
+public class GameObject {
     public MeshRenderer renderer;
     public Transform transform;
     private List<GameComponent> components = new ArrayList<>();
     private List<GameObject> children = new ArrayList<>();
+    private List<GameObject> newborns = new ArrayList<>();
+    private List<GameObject> defuncts = new ArrayList<>();
     private GameObject parent;
+
+    private float fixedUpdateTime = 0f;
 
     protected GameObject() {
     }
@@ -27,35 +29,53 @@ public class GameObject implements IDrawable {
     }
 
     final void fixedUpdate() {
-        float deltaTime = Time.deltaTime;
-        while (deltaTime > Time.fixedDeltaTime) {
-            deltaTime -= Time.fixedDeltaTime;
+        fixedUpdateTime += Time.deltaTime;
+        while (fixedUpdateTime > Time.fixedDeltaTime) {
+            fixedUpdateTime -= Time.fixedDeltaTime;
             components.forEach(GameComponent::fixedUpdate);
         }
 
         children.forEach(GameObject::fixedUpdate);
+        updateNewborns();
+        updateDefuncts();
     }
 
     public final void update() {
         components.forEach(GameComponent::update);
         children.forEach(GameObject::update);
+        updateNewborns();
+        updateDefuncts();
+    }
+
+    private void updateNewborns() {
+        if (newborns.size() == 0) return;
+
+        newborns.forEach(child -> children.add(child));
+        newborns.clear();
+    }
+
+    private void updateDefuncts() {
+        if (defuncts.size() == 0) return;
+
+        defuncts.forEach(child -> children.remove(child));
+        defuncts.clear();
     }
 
     final void lateUpdate() {
         components.forEach(GameComponent::lateUpdate);
         children.forEach(GameObject::lateUpdate);
+        updateNewborns();
+        updateDefuncts();
     }
 
-    @Override
-    public final void draw(Matrix4f world) {
-        world.mul(transform.getLocalMatrix());
+    public final void draw() {
         if (renderer != null)
-            renderer.draw(world);
-        children.forEach(child -> child.draw(new Matrix4f(world)));
+            renderer.draw(transform.getWorld());
+        children.forEach(child -> child.draw());
     }
 
     private GameObject removeChild(GameObject child) {
-        children.remove(child);
+        defuncts.add(child);
         child.parent = null;
         return this;
     }
@@ -65,7 +85,7 @@ public class GameObject implements IDrawable {
             SceneManager.getActiveScene().addChild(this);
         } else {
             removeFromParent();
-            parent.children.add(this);
+            parent.newborns.add(this);
             this.parent = parent;
         }
         return this;
