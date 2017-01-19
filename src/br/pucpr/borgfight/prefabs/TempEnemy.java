@@ -33,7 +33,7 @@ public class TempEnemy extends GameObject {
 //                        (float) (Math.random()) * 0.5f + 0.5f,
 //                        (float) (Math.random()) * 0.5f + 0.5f
 //                ))
-                .rotate(
+                .rotateLocal(
                         (float) (Math.random() * 2f * Math.PI),
                         transform.getLocalPosition()
                 );

@@ -16,6 +16,7 @@ public class GameObject {
     private GameObject parent;
 
     private float fixedUpdateTime = 0f;
+    private boolean active = true;
 
     protected GameObject() {
     }
@@ -29,6 +30,7 @@ public class GameObject {
     }
 
     final void fixedUpdate() {
+        if (!active) return;
         fixedUpdateTime += Time.deltaTime;
         while (fixedUpdateTime > Time.fixedDeltaTime) {
             fixedUpdateTime -= Time.fixedDeltaTime;
@@ -41,6 +43,7 @@ public class GameObject {
     }
 
     public final void update() {
+        if (!active) return;
         components.forEach(GameComponent::update);
         children.forEach(GameObject::update);
         updateNewborns();
@@ -62,6 +65,7 @@ public class GameObject {
     }
 
     final void lateUpdate() {
+        if (!active) return;
         components.forEach(GameComponent::lateUpdate);
         children.forEach(GameObject::lateUpdate);
         updateNewborns();
@@ -69,6 +73,7 @@ public class GameObject {
     }
 
     public final void draw() {
+        if (!active) return;
         if (renderer != null)
             renderer.draw(transform.getWorld());
         children.forEach(child -> child.draw());
@@ -149,5 +154,13 @@ public class GameObject {
         instance.init();
         SceneManager.getActiveScene().addChild(instance);
         return instance;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

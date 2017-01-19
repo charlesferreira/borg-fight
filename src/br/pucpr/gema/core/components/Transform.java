@@ -79,6 +79,11 @@ public class Transform extends GameComponent {
         return this;
     }
 
+    public Transform setLocalPosition(float x, float y, float z) {
+        setLocalPosition(new Vector3f(x, y, z));
+        return this;
+    }
+
     public Transform setWorldPosition(Vector3f position) {
         if (gameObject.getParent() != null)
             getParentWorld().invert().transformPosition(position);
@@ -87,7 +92,7 @@ public class Transform extends GameComponent {
         return this;
     }
 
-    public Transform rotate(float radians, Vector3f axis) {
+    public Transform rotateLocal(float radians, Vector3f axis) {
         this.localRotation.rotateAxis(radians, axis);
         return this;
     }
@@ -112,6 +117,11 @@ public class Transform extends GameComponent {
 
     public Transform scale(float factor) {
         localScale.mul(factor);
+        return this;
+    }
+
+    public Transform scale(float x, float y, float z) {
+        localScale.mul(x, y, z);
         return this;
     }
 

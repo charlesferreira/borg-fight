@@ -52,7 +52,7 @@ public class RigidBody extends GameComponent {
         float radians = rotation.length();
         if (radians > 0) {
             Vector3f axis = rotation.normalize();
-            transform.rotate(radians, axis);
+            transform.rotateLocal(radians, axis);
         }
         angularVelocity.mul(1f - angularDrag);
     }

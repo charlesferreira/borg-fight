@@ -168,15 +168,15 @@ public class MeshFactory {
     public static Mesh createCanvas() {
         return new MeshBuilder()
                 .addVector2fAttribute("aPosition",
-                        -1.0f, 1.0f,  //0
-                        1.0f, 1.0f,  //1
+                        -1.0f,  1.0f,  //0
+                        1.0f,   1.0f,  //1
                         -1.0f, -1.0f,  //2
-                        1.0f, -1.0f)  //3
+                        1.0f,  -1.0f)  //3
                 .addVector2fAttribute("aTexCoord",
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
                         0.0f, 0.0f,
-                        1.0f, 0.0f)
+                        1.0f, 0.0f,
+                        0.0f, 1.0f,
+                        1.0f, 1.0f)
                 .setIndexBuffer(
                         0, 2, 3,
                         0, 3, 1)

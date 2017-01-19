@@ -28,22 +28,17 @@ public class PlayerShipController extends GameComponent {
     }
 
     private void move() {
-        // turbo
-        float turbo = Input.getKey(GLFW.GLFW_KEY_LEFT_SHIFT)
-                ? 5f
-                : 1f;
-
         // propulsão
         float thrust = 0f;
         if (Input.getKey(GLFW.GLFW_KEY_W)) thrust++;
-        if (Input.getKey(GLFW.GLFW_KEY_S)) thrust--;
-        movement.thrust(thrust * turbo);
+//        if (Input.getKey(GLFW.GLFW_KEY_S)) thrust--;
+        movement.thrust(thrust);
 
         // strafe
         float strafe = 0f;
         if (Input.getKey(GLFW.GLFW_KEY_Q)) strafe--;
         if (Input.getKey(GLFW.GLFW_KEY_E)) strafe++;
-        movement.strafe(strafe * turbo);
+        movement.strafe(strafe);
     }
 
     private void steer() {
@@ -69,7 +64,7 @@ public class PlayerShipController extends GameComponent {
     }
 
     private void fire() {
-        if (Input.getMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT))
+        if (Input.getMouseButton(GLFW.GLFW_MOUSE_BUTTON_LEFT))
             weapon.fire();
     }
 }

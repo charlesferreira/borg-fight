@@ -9,8 +9,9 @@ import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
-public abstract class GameScene implements Scene {
+public abstract class GameScene {
     public GameObject camera;
     public DirectionalLight light;
     private GameObject sceneGraph = new GameObject();
@@ -20,14 +21,7 @@ public abstract class GameScene implements Scene {
 
     protected abstract Vector3f getStartingCameraPos();
 
-    @Override
-    public void init() {
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
-        glDepthFunc(GL_LEQUAL);
-        glPolygonMode(GL_FRONT_FACE, GL_LINE);
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+    public final void init() {
         sceneGraph.preInit();
         createCamera();
         createLight();
@@ -52,7 +46,6 @@ public abstract class GameScene implements Scene {
                 new Vector3f(1f, 1f, 1f)));         // specular
     }
 
-    @Override
     public final void update(float secs) {
         if (Keyboard.getInstance().isPressed(GLFW_KEY_ESCAPE)) {
             glfwSetWindowShouldClose(glfwGetCurrentContext(), GLFW_TRUE);
@@ -69,15 +62,12 @@ public abstract class GameScene implements Scene {
         sceneGraph.lateUpdate();
     }
 
-    @Override
     public final void draw() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         sceneGraph.draw();
     }
 
-    @Override
     public final void deinit() {
-        onSceneUnload();
     }
 
     protected GameObject addChild(GameObject child) {
@@ -86,7 +76,4 @@ public abstract class GameScene implements Scene {
     }
 
     protected abstract void onSceneLoad();
-
-    private void onSceneUnload() {
-    }
 }

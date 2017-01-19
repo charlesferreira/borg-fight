@@ -12,11 +12,11 @@ public class Texture {
         
         id = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, id);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 
-                width, height, 0,  
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                width, height, 0,
                 GL_RGBA, GL_UNSIGNED_BYTE, 0);
         parameters.apply(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, 0);        
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
     
     public Texture(Image image, TextureParameters parameters) {
@@ -32,8 +32,8 @@ public class Texture {
         
         //Copia os dados        
         id = glGenTextures();        
-        glBindTexture(GL_TEXTURE_2D, id);        
-        glTexImage2D(GL_TEXTURE_2D, 0, format, 
+        glBindTexture(GL_TEXTURE_2D, id);
+        glTexImage2D(GL_TEXTURE_2D, 0, format,
                 image.getWidth(), image.getHeight(), 0,  
                 format, GL_UNSIGNED_BYTE, image.getPixels());
         
