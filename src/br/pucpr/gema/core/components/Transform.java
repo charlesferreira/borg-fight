@@ -74,6 +74,11 @@ public class Transform extends GameComponent {
         return this;
     }
 
+    public Transform translate(float x, float y, float z) {
+        localPosition.add(x, y, z);
+        return this;
+    }
+
     public Transform setLocalPosition(Vector3f position) {
         this.localPosition.set(position);
         return this;

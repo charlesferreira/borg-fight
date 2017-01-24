@@ -35,4 +35,22 @@ public class MeshRenderer extends GameComponent {
         mesh.setUniform("uWorld", world);
         mesh.draw(material);
     }
+
+    public Mesh getMesh() {
+        return mesh;
+    }
+
+    public MeshRenderer setMesh(Mesh mesh) {
+        this.mesh = mesh;
+        return this;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public MeshRenderer setMaterial(Material material) {
+        this.material = material;
+        return this;
+    }
 }
