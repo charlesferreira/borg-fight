@@ -7,21 +7,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameObject {
-    public MeshRenderer renderer;
-    public Transform transform;
+    private GameObject parent;
+
     private List<GameComponent> components = new ArrayList<>();
     private List<GameObject> children = new ArrayList<>();
     private List<GameObject> newborns = new ArrayList<>();
     private List<GameObject> defuncts = new ArrayList<>();
-    private GameObject parent;
 
-    private float fixedUpdateTime = 0f;
+    public MeshRenderer renderer;
+    public Transform transform;
+    public Collider collider = null;
+
     private boolean active = true;
+    private boolean dying = false;
+    private float deathTimer;
+
+    private String tag = "";
 
     protected GameObject() {
     }
 
-    void preInit() {
+    final void initComponents() {
         transform = addComponent(Transform.class);
         renderer = addComponent(MeshRenderer.class);
     }
@@ -29,14 +35,13 @@ public class GameObject {
     protected void init() {
     }
 
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     final void fixedUpdate() {
         if (!active) return;
-        fixedUpdateTime += Time.deltaTime;
-        while (fixedUpdateTime > Time.fixedDeltaTime) {
-            fixedUpdateTime -= Time.fixedDeltaTime;
-            components.forEach(GameComponent::fixedUpdate);
-        }
-
+        components.forEach(GameComponent::fixedUpdate);
         children.forEach(GameObject::fixedUpdate);
         updateNewborns();
         updateDefuncts();
@@ -48,6 +53,25 @@ public class GameObject {
         children.forEach(GameObject::update);
         updateNewborns();
         updateDefuncts();
+        if (dying) updateDeathTimer();
+    }
+
+    public final void onCollisionEnter(Collider other) {
+        for (GameComponent component : components) {
+            component.onCollisionEnter(other);
+        }
+    }
+
+    public final void onCollisionStay(Collider other) {
+        for (GameComponent component : components) {
+            component.onCollisionStay(other);
+        }
+    }
+
+    public final void onCollisionExit(Collider other) {
+        for (GameComponent component : components) {
+            component.onCollisionExit(other);
+        }
     }
 
     private void updateNewborns() {
@@ -76,10 +100,10 @@ public class GameObject {
         if (!active) return;
         if (renderer != null)
             renderer.draw(transform.getWorld());
-        children.forEach(child -> child.draw());
+        children.forEach(GameObject::draw);
     }
 
-    private GameObject removeChild(GameObject child) {
+    GameObject removeChild(GameObject child) {
         defuncts.add(child);
         child.parent = null;
         return this;
@@ -150,7 +174,7 @@ public class GameObject {
     }
 
     private static <T extends GameObject> T prepareInstance(T instance) {
-        instance.preInit();
+        instance.initComponents();
         instance.init();
         SceneManager.getActiveScene().addChild(instance);
         return instance;
@@ -162,5 +186,22 @@ public class GameObject {
 
     public boolean isActive() {
         return active;
+    }
+
+    void selfDestruct(float delay) {
+        deathTimer = delay;
+        dying = true;
+    }
+
+    private void updateDeathTimer() {
+        deathTimer -= Time.deltaTime;
+        if (deathTimer <= 0f) {
+            components.forEach(GameComponent::onDestroy);
+            removeFromParent();
+        }
+    }
+
+    public boolean compareTag(String tag) {
+        return this.tag == tag;
     }
 }

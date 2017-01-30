@@ -12,6 +12,14 @@ abstract public class GameComponent {
         transform = gameObject.transform;
     }
 
+    protected final void destroy(GameObject gameObject) {
+        gameObject.selfDestruct(0);
+    }
+
+    protected final void destroy(GameObject gameObject, float delay) {
+        gameObject.selfDestruct(delay);
+    }
+
     public <T extends GameComponent> T getComponent(Class<T> componentClass) {
         return gameObject.getComponent(componentClass);
     }
@@ -32,5 +40,17 @@ abstract public class GameComponent {
     }
 
     public void lateUpdate() {
+    }
+
+    public void onDestroy() {
+    }
+
+    public void onCollisionEnter(Collider other) {
+    }
+
+    public void onCollisionStay(Collider other) {
+    }
+
+    public void onCollisionExit(Collider other) {
     }
 }

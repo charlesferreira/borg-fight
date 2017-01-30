@@ -7,7 +7,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class ShipMovement extends GameComponent {
-    private float maxSpeed = 15f;
+    private float maxSpeed = 20f;
     private float mainThrusterPower = 15f;
     private float sideThrusterPower = 5f;
     private float pitchStrength = 2.5f;

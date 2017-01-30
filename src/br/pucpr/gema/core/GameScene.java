@@ -1,20 +1,19 @@
 package br.pucpr.gema.core;
 
 import br.pucpr.gema.core.objects.Camera;
+import br.pucpr.gema.physics.CollisionsManager;
 import br.pucpr.mage.Keyboard;
-import br.pucpr.mage.Scene;
 import br.pucpr.mage.phong.DirectionalLight;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 
 public abstract class GameScene {
     public GameObject camera;
     public DirectionalLight light;
     private GameObject sceneGraph = new GameObject();
+    private float fixedUpdateTime;
 
     protected GameScene() {
     }
@@ -22,7 +21,7 @@ public abstract class GameScene {
     protected abstract Vector3f getStartingCameraPos();
 
     public final void init() {
-        sceneGraph.preInit();
+        sceneGraph.initComponents();
         createCamera();
         createLight();
 
@@ -52,12 +51,18 @@ public abstract class GameScene {
             return;
         }
 
-        Time.deltaTime = secs;
-        Time.fixedDeltaTime = secs;
         Time.time += secs;
+        Time.deltaTime = secs;
 
         LifeCycleManager.getInstance().start();
-        sceneGraph.fixedUpdate();
+
+        fixedUpdateTime += Time.deltaTime;
+        while (fixedUpdateTime > Time.fixedDeltaTime) {
+            fixedUpdateTime -= Time.fixedDeltaTime;
+            sceneGraph.fixedUpdate();
+            CollisionsManager.getInstance().update();
+        }
+
         sceneGraph.update();
         sceneGraph.lateUpdate();
     }

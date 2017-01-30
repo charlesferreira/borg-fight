@@ -1,6 +1,6 @@
 package br.pucpr.borgfight.scripts;
 
-import br.pucpr.borgfight.scene.ShipScene;
+import br.pucpr.borgfight.scene.MainScene;
 import br.pucpr.gema.core.*;
 import org.lwjgl.glfw.GLFW;
 
@@ -40,7 +40,7 @@ public class TitleController extends GameComponent {
                 state = State.INSTRUCTIONS;
                 break;
             case INSTRUCTIONS:
-                SceneManager.loadScene(ShipScene.class);
+                SceneManager.loadScene(MainScene.class);
                 break;
         }
     }

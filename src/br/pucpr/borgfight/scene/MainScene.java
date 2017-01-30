@@ -2,13 +2,13 @@ package br.pucpr.borgfight.scene;
 
 import br.pucpr.borgfight.prefabs.MySkybox;
 import br.pucpr.borgfight.prefabs.PlayerShip;
-import br.pucpr.borgfight.prefabs.TempEnemy;
+import br.pucpr.borgfight.prefabs.Enemy;
 import br.pucpr.borgfight.scripts.CameraMan;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.GameScene;
 import org.joml.Vector3f;
 
-public class ShipScene extends GameScene {
+public class MainScene extends GameScene {
     @Override
     protected Vector3f getStartingCameraPos() {
         return new Vector3f(0, 1f, 2f);
@@ -31,7 +31,7 @@ public class ShipScene extends GameScene {
 
     private void createEnemies(int count, float radius) {
         for (int i = 0; i < count; i++) {
-            TempEnemy enemy = GameObject.instantiate(TempEnemy.class);
+            Enemy enemy = GameObject.instantiate(Enemy.class);
             enemy.randomize(radius);
         }
     }

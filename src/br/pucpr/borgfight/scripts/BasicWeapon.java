@@ -1,5 +1,6 @@
 package br.pucpr.borgfight.scripts;
 
+import br.pucpr.borgfight.prefabs.Bullet;
 import br.pucpr.gema.core.GameComponent;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.Time;
@@ -11,14 +12,20 @@ public class BasicWeapon extends GameComponent {
     private float cooldown = 0.2f;
     private GameObject bulletPrefab;
     private RigidBody rb;
-
-    public void setBulletPrefab(GameObject bulletPrefab) {
-        this.bulletPrefab = bulletPrefab;
-    }
+    private String target;
 
     private enum State {READY, FIRING, ON_COOLDOWN}
 
     private State state = State.READY;
+
+    public BasicWeapon setBulletPrefab(GameObject bulletPrefab) {
+        this.bulletPrefab = bulletPrefab;
+        return this;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
     @Override
     public void start() {
@@ -52,5 +59,7 @@ public class BasicWeapon extends GameComponent {
         bullet.setWorldPosition(transform.getWorldPosition());
         bullet.setWorldRotation(transform.getWorldRotation());
         bullet.getComponent(RigidBody.class).velocity.set(rb.velocity);
+
+        bullet.getComponent(Bullet.class).setTarget(target);
     }
 }
