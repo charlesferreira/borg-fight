@@ -35,10 +35,6 @@ public class GameObject {
     protected void init() {
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
     final void fixedUpdate() {
         if (!active) return;
         components.forEach(GameComponent::fixedUpdate);
@@ -74,7 +70,7 @@ public class GameObject {
         }
     }
 
-    private void updateNewborns() {
+    void updateNewborns() {
         if (newborns.size() == 0) return;
 
         newborns.forEach(child -> children.add(child));
@@ -201,7 +197,35 @@ public class GameObject {
         }
     }
 
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
     public boolean compareTag(String tag) {
-        return this.tag == tag;
+        return this.tag.equals(tag);
+    }
+
+    GameObject findObjectWithTag(String tag) {
+        if (compareTag(tag)) return this;
+
+        GameObject taggedObject;
+        for (GameObject child : children) {
+            taggedObject = child.findObjectWithTag(tag);
+            if (taggedObject != null)
+                return taggedObject;
+        }
+
+        return null;
+    }
+
+    public void print(Object o) {
+        System.out.println(
+                o != null
+                        ? o.toString()
+                        : "null");
     }
 }

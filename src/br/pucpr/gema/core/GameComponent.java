@@ -24,6 +24,14 @@ abstract public class GameComponent {
         return gameObject.getComponent(componentClass);
     }
 
+    protected GameObject findObjectWithTag(String tag) {
+        return SceneManager.getActiveScene().findObjectWithTag(tag);
+    }
+
+    protected void print(Object o) {
+        gameObject.print(o);
+    }
+
 
     // métodos de ciclo de vida
 

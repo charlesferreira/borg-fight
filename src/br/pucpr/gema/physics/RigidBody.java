@@ -102,6 +102,10 @@ public class RigidBody extends GameComponent {
         return this;
     }
 
+    public float getMass() {
+        return mass;
+    }
+
     public RigidBody setMass(float mass) {
         assert (mass > 0);
         this.mass = mass;

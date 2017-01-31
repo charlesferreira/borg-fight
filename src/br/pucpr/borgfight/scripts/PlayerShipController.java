@@ -21,6 +21,7 @@ public class PlayerShipController extends GameComponent {
     @Override
     public void update() {
         if (Input.getKey(GLFW.GLFW_KEY_SPACE)) movement.reset();
+        if (Input.getKey(GLFW.GLFW_KEY_S)) movement.rb.velocity.set(0);
 
         move();
         steer();
@@ -31,7 +32,6 @@ public class PlayerShipController extends GameComponent {
         // propulsão
         float thrust = 0f;
         if (Input.getKey(GLFW.GLFW_KEY_W)) thrust++;
-//        if (Input.getKey(GLFW.GLFW_KEY_S)) thrust--;
         movement.thrust(thrust);
 
         // strafe

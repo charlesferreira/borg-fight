@@ -54,6 +54,9 @@ public abstract class GameScene {
         Time.time += secs;
         Time.deltaTime = secs;
 
+        // atualiza os objetos que possam ter sido criados na inicialização da cena
+        // todo: não sei se isso está certo... fiz com pressa
+        sceneGraph.updateNewborns();
         LifeCycleManager.getInstance().start();
 
         fixedUpdateTime += Time.deltaTime;
@@ -75,10 +78,14 @@ public abstract class GameScene {
     public final void deinit() {
     }
 
+    protected abstract void onSceneLoad();
+
     protected GameObject addChild(GameObject child) {
         child.setParent(sceneGraph);
         return child;
     }
 
-    protected abstract void onSceneLoad();
+    public GameObject findObjectWithTag(String tag) {
+        return sceneGraph.findObjectWithTag(tag);
+    }
 }

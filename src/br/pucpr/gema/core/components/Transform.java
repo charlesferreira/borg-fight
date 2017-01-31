@@ -97,6 +97,10 @@ public class Transform extends GameComponent {
         return this;
     }
 
+    public Transform setWorldPosition(float x, float y, float z) {
+        return this.setWorldPosition(new Vector3f(x, y, z));
+    }
+
     public Transform rotateLocal(float radians, Vector3f axis) {
         this.localRotation.rotateAxis(radians, axis);
         return this;

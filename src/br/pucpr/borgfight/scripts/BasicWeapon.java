@@ -9,7 +9,7 @@ import br.pucpr.gema.physics.RigidBody;
 
 public class BasicWeapon extends GameComponent {
     private float cooldownTimer;
-    private float cooldown = 0.2f;
+    private float cooldown = 0.1f;
     private GameObject bulletPrefab;
     private RigidBody rb;
     private String target;

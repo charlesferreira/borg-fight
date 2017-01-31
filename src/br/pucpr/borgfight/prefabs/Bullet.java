@@ -7,7 +7,7 @@ import br.pucpr.gema.physics.RigidBody;
 
 public class Bullet extends GameComponent {
     private float timeToLive = 5f;
-    private float speed = 500f;
+    private float speed = 1000f;
     private String target;
 
     @Override

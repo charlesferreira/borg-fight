@@ -1,10 +1,10 @@
 package br.pucpr.borgfight.prefabs;
 
-import br.pucpr.borgfight.scripts.EnemyShipController;
-import br.pucpr.borgfight.scripts.ShipMovement;
+import br.pucpr.borgfight.scripts.enemy.EnemyMovement;
 import br.pucpr.borgfight.scripts.Tags;
 import br.pucpr.cg.MeshFactory;
 import br.pucpr.gema.core.GameObject;
+import br.pucpr.gema.core.components.Transform;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
 import br.pucpr.gema.physics.RigidBody;
 import br.pucpr.gema.physics.SphereCollider;
@@ -16,14 +16,14 @@ public class Enemy extends GameObject {
         float r = (float) Math.random();
         float g = (float) Math.random();
         float b = (float) Math.random();
-        renderer.mesh = MeshFactory.createSphere(10, 10);
+//        renderer.mesh = MeshFactory.createSphere(10, 10);
+        renderer.mesh = MeshFactory.createCube();
         renderer.material = new DefaultMaterial(new Vector3f(r, g, b));
 
         setTag(Tags.Enemy.toString());
         addComponent(RigidBody.class);
         addComponent(SphereCollider.class);
-        addComponent(ShipMovement.class);
-        addComponent(EnemyShipController.class);
+        addComponent(EnemyMovement.class);
     }
 
     public Enemy randomize(float distance) {
