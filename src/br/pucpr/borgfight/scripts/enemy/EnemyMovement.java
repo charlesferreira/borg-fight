@@ -10,22 +10,23 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class EnemyMovement extends GameComponent {
-    //    private float maxSpeed = 12.5f;
-    float maxSpeed = 8f;
+    float maxSpeed = 10f;
 
-    RigidBody rb;
-    Transform target;
+    private Transform target;
+    private EnemyBehaviour currentState;
     EnemyBehaviour wanderState;
     EnemyBehaviour seekState;
-    private EnemyBehaviour currentState;
+    EnemyBehaviour fleeState;
+    RigidBody rb;
 
     @Override
     public void start() {
         rb = getComponent(RigidBody.class);
-        rb.addForce(transform.forward(), ForceMode.VELOCITY_CHANGE);
+        rb.addForce(transform.forward().mul(maxSpeed), ForceMode.VELOCITY_CHANGE);
         target = findObjectWithTag(Tags.Player.toString()).transform;
         wanderState = new WanderState(this, target);
         seekState = new SeekState(this, target);
+        fleeState = new FleeState(this, target);
         setState(wanderState);
     }
 
@@ -42,7 +43,7 @@ public class EnemyMovement extends GameComponent {
         transform.setLocalRotation(new Quaternionf().lookAlong(rb.velocity, transform.up()));
     }
 
-    public void setState(EnemyBehaviour state) {
+    void setState(EnemyBehaviour state) {
         state.onStateEnter();
         currentState = state;
     }

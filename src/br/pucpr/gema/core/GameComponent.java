@@ -5,6 +5,7 @@ import br.pucpr.gema.core.components.Transform;
 abstract public class GameComponent {
     public Transform transform;
     public GameObject gameObject;
+    public boolean enabled = true;
 
     final void init(GameObject gameObject) {
         LifeCycleManager.getInstance().notifyCreation(this);
@@ -60,5 +61,22 @@ abstract public class GameComponent {
     }
 
     public void onCollisionExit(Collider other) {
+    }
+
+    // callers
+
+    public final void callFixedUpdate() {
+        if (!enabled) return;
+        fixedUpdate();
+    }
+
+    public final void callUpdate() {
+        if (!enabled) return;
+        update();
+    }
+
+    public final void callLateUpdate() {
+        if (!enabled) return;
+        lateUpdate();
     }
 }

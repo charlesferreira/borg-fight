@@ -1,9 +1,6 @@
 package br.pucpr.borgfight.prefabs;
 
-import br.pucpr.borgfight.scripts.PlayerShipController;
-import br.pucpr.borgfight.scripts.ShipMovement;
-import br.pucpr.borgfight.scripts.BasicWeapon;
-import br.pucpr.borgfight.scripts.Tags;
+import br.pucpr.borgfight.scripts.*;
 import br.pucpr.gema.core.GameObject;
 import br.pucpr.gema.core.objects.Cube;
 import br.pucpr.gema.graphics.materials.DefaultMaterial;
@@ -14,6 +11,8 @@ public class PlayerShip extends GameObject {
 
     @Override
     protected void init() {
+        GameManager.getInstance().setPlayerShip(this);
+
         setTag(Tags.Player.toString());
         addComponent(RigidBody.class);
         addComponent(ShipMovement.class);
@@ -28,5 +27,9 @@ public class PlayerShip extends GameObject {
         model.renderer.material = new DefaultMaterial()
                 .setTexture(new Texture("br/pucpr/borgfight/assets/textures/cube.jpg"));
         model.setParent(this);
+    }
+
+    public void disableInputs() {
+        getComponent(PlayerShipController.class).enabled = false;
     }
 }

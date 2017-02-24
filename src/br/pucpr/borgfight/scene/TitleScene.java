@@ -13,9 +13,7 @@ import org.joml.Vector3f;
 public class TitleScene extends GameScene {
 
     private GameObject gui;
-    private GameObject title;
-    private GameObject clickToStart;
-    private GameObject instructions;
+    private GameObject credits;
 
     @Override
     protected Vector3f getStartingCameraPos() {
@@ -27,59 +25,78 @@ public class TitleScene extends GameScene {
         GameObject.instantiate(MySkybox.class);
 
         createGUI();
-        createTitle();
-        createClickToStart();
-        createInstructions();
 
         GameObject controller = GameObject.instantiate();
         controller.addComponent(TitleController.class)
-                .setTitle(title)
-                .setClickToStart(clickToStart)
-                .setInstructions(instructions);
+                .setTitle(createTitle())
+                .setClickToStart(createClickToStart())
+                .setInstructions(createInstructions())
+                .setCredits(createCredits());
     }
 
     private void createGUI() {
         gui = GameObject.instantiate();
-        gui.transform.translate(0, 0, -13f);
+        gui.transform.translate(0, 0, -13);
         gui.setParent(camera);
     }
 
-    private void createTitle() {
-        title = GameObject.instantiate();
+    private GameObject createTitle() {
+        GameObject title = GameObject.instantiate();
         title.setParent(gui)
                 .transform.scale(9.4f, .6f, 1)
-                .translate(0, 3.5f, 0);
+                .translate(0, 4, 0);
 
         title.renderer
                 .setMesh(MeshFactory.createCanvas())
                 .setMaterial(new SpriteMaterial()
                         .setTexture(new Texture("br/pucpr/borgfight/assets/textures/title.png")));
+
+        return title;
     }
 
-    private void createClickToStart() {
-        clickToStart = GameObject.instantiate();
+    private GameObject createClickToStart() {
+        GameObject clickToStart = GameObject.instantiate();
         clickToStart.addComponent(SpriteAlphaBlink.class)
                 .setup(.5f, 1f, .5f);
 
         clickToStart.setParent(gui)
                 .transform.scale(3.5f, .35f, 1)
-                .translate(0, -3.5f, 0);
+                .translate(0, -1f, 0)
+        ;
 
         clickToStart.renderer
                 .setMesh(MeshFactory.createCanvas())
                 .setMaterial(new SpriteMaterial()
                         .setTexture(new Texture("br/pucpr/borgfight/assets/textures/click-to-start.png")));
+
+        return clickToStart;
     }
 
-    private void createInstructions() {
-        instructions = GameObject.instantiate();
+    private GameObject createInstructions() {
+        GameObject instructions = GameObject.instantiate();
         instructions.setParent(gui)
-                .transform.scale(5.2f, 5.7f, 1)
+                .transform.scale(5.2f, 5.5f, 1)
                 .translate(0, 1f, 0);
 
         instructions.renderer
                 .setMesh(MeshFactory.createCanvas())
                 .setMaterial(new SpriteMaterial()
                         .setTexture(new Texture("br/pucpr/borgfight/assets/textures/instructions.png")));
+
+        return instructions;
+    }
+
+    private GameObject createCredits() {
+        GameObject credits = GameObject.instantiate();
+        credits.setParent(gui)
+                .transform.scale(2.4f, 0.6f, 1)
+                .translate(0, -6f, 0);
+
+        credits.renderer
+                .setMesh(MeshFactory.createCanvas())
+                .setMaterial(new SpriteMaterial()
+                        .setTexture(new Texture("br/pucpr/borgfight/assets/textures/credits.png")));
+
+        return credits;
     }
 }

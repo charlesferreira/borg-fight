@@ -134,6 +134,11 @@ public class Transform extends GameComponent {
         return this;
     }
 
+    public Transform setLocalScale(float x, float y, float z) {
+        localScale.set(x, y, z);
+        return this;
+    }
+
     public Vector3f right() {
         return getWorld().transformDirection(new Vector3f(1, 0, 0));
     }

@@ -10,10 +10,12 @@ public class SpriteAlphaBlink extends GameComponent {
     private float speed;
     private boolean reverse;
 
-    public void setup(float min, float max, float speed) {
+    public SpriteAlphaBlink setup(float min, float max, float speed) {
         this.min = min;
         this.max = max;
         this.speed = speed;
+
+        return this;
     }
 
     @Override

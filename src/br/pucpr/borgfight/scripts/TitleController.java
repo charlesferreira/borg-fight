@@ -6,14 +6,16 @@ import org.lwjgl.glfw.GLFW;
 
 public class TitleController extends GameComponent {
 
-    private float rotationSpeed = -0.05f;
-
     private enum State {TITLE, INSTRUCTIONS}
+
+    private float rotationSpeed = -0.05f;
 
     private GameObject title;
     private GameObject clickToStart;
     private GameObject instructions;
-    private State state = State.TITLE;
+    private GameObject credits;
+
+    private State currentState = State.TITLE;
 
     @Override
     public void start() {
@@ -26,18 +28,22 @@ public class TitleController extends GameComponent {
     public void update() {
         if (Input.getMouseButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT))
             nextState();
+    }
 
-        // gira, gira...
-        transform.rotateLocal(rotationSpeed * Time.deltaTime, transform.up());
+    @Override
+    public void fixedUpdate() {
+        // câmera gira, gira...
+        transform.rotateLocal(rotationSpeed * Time.fixedDeltaTime, transform.up());
     }
 
     private void nextState() {
-        switch (state) {
+        switch (currentState) {
             case TITLE:
                 title.setActive(false);
+                credits.setActive(false);
                 clickToStart.transform.setLocalPosition(0, -6.15f, 0);
                 instructions.setActive(true);
-                state = State.INSTRUCTIONS;
+                currentState = State.INSTRUCTIONS;
                 break;
             case INSTRUCTIONS:
                 SceneManager.loadScene(MainScene.class);
@@ -58,5 +64,9 @@ public class TitleController extends GameComponent {
     public TitleController setInstructions(GameObject instructions) {
         this.instructions = instructions;
         return this;
+    }
+
+    public void setCredits(GameObject credits) {
+        this.credits = credits;
     }
 }

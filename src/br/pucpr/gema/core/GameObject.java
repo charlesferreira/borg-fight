@@ -37,7 +37,7 @@ public class GameObject {
 
     final void fixedUpdate() {
         if (!active) return;
-        components.forEach(GameComponent::fixedUpdate);
+        components.forEach(GameComponent::callFixedUpdate);
         children.forEach(GameObject::fixedUpdate);
         updateNewborns();
         updateDefuncts();
@@ -45,7 +45,7 @@ public class GameObject {
 
     public final void update() {
         if (!active) return;
-        components.forEach(GameComponent::update);
+        components.forEach(GameComponent::callUpdate);
         children.forEach(GameObject::update);
         updateNewborns();
         updateDefuncts();
@@ -86,7 +86,7 @@ public class GameObject {
 
     final void lateUpdate() {
         if (!active) return;
-        components.forEach(GameComponent::lateUpdate);
+        components.forEach(GameComponent::callLateUpdate);
         children.forEach(GameObject::lateUpdate);
         updateNewborns();
         updateDefuncts();
@@ -176,8 +176,10 @@ public class GameObject {
         return instance;
     }
 
-    public void setActive(boolean active) {
+    public GameObject setActive(boolean active) {
         this.active = active;
+
+        return this;
     }
 
     public boolean isActive() {
